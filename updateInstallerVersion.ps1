@@ -41,6 +41,8 @@ Foreach-Object {$_ -replace '^#define TGIT_VERMICRO.+', "#define TGIT_VERMICRO 	
 Foreach-Object {$_ -replace '^#define TGIT_VERBUILD.+', "#define TGIT_VERBUILD 		$($split[3])"} |
 Out-file $header
 
+Write-host "Modified $header to use version $version"
+
 # Modify VersionNumberInclude.wxi
 (Copy-Item $versionNumberInclude "$($versionNumberInclude).bak")
 
@@ -51,3 +53,4 @@ Foreach-Object {$_ -replace "MicroVersion=""\d*""", "MicroVersion=""$($split[2])
 Foreach-Object {$_ -replace "BuildVersion=""\d*""", "BuildVersion=""$($split[3])"""} |
 Out-file $versionNumberInclude
 
+Write-host "Modified $versionNumberInclude to use version $version"
