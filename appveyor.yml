@@ -121,8 +121,6 @@ build_script:
 # Tells AppVeyor which file and folders should be uploaded to AppVeyor cloud storage
 # during the build
 
-artifacts:
-
 #---------------------------------#
 #     deployment configuration    #
 #---------------------------------#
