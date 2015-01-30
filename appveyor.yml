@@ -23,11 +23,11 @@ skip_tags: true
 #---------------------------------#
 #    environment configuration    #
 #---------------------------------#
-environment:
-  VisualStudioVersion: 11.0
+#environment:
+#  VisualStudioVersion: 12.0
   
 # Operating system (build VM template)
-#os: Windows Server 2012
+os: unstable
 
 # scripts that are called at very beginning, before repo cloning
 init:
@@ -87,9 +87,18 @@ build:
  
 # scripts to run before build
 before_build:
- 
+  - ps: .\updateInstallerVersion.ps1 $Env:APPVEYOR_BUILD_VERSION
+
 # scripts to run after build
-after_build:
+after_build: |
+  if($Env:Platform -eq "Win32")
+  {
+    Push-AppveyorArtifact "\bin\Release\bin\TortoiseSI32.dll"
+  }
+  if($Env:Platform -eq "x64")
+  {
+    Push-AppveyorArtifact "\bin\setup\x64\TortoiseSI.msi"
+  }
  
 # to run your custom scripts instead of automatic MSBuild
 build_script:
@@ -111,11 +120,6 @@ build_script:
 #---------------------------------#
 # Tells AppVeyor which file and folders should be uploaded to AppVeyor cloud storage
 # during the build
-
-artifacts:
-
-  # relative to root of repository
-  - path: bin\setup
 
 #---------------------------------#
 #     deployment configuration    #
@@ -152,6 +156,7 @@ notifications:
       - krtaylor@ptc.com
       - szhao@ptc.com
       - bleskowsky@ptc.com
+      - crovers@ptc.com
     subject: 'Build {{status}}: {{projectName}} {{buildVersion}}'
     message: "{{message}}, {{commitId}}, ..."
     on_build_status_changed: true
