@@ -20,8 +20,7 @@
 //
 #include "../targetver.h"
 #include <Windows.h>
-#include <tchar.h>
-#include "Debug.h"
+#include <string>
 
 const HINSTANCE NIL = (HINSTANCE)((char*)(0)-1);
 
@@ -31,41 +30,55 @@ static HINSTANCE hTortoiseSI = NULL;
 static LPFNGETCLASSOBJECT pDllGetClassObject = NULL;
 static LPFNCANUNLOADNOW pDllCanUnloadNow = NULL;
 
-static BOOL DebugActive(void)
-{
-	static const WCHAR TSIRootKey[]=_T("Software\\TortoiseSI");
-	static const WCHAR ExplorerOnlyValue[]=_T("DebugShell");
+static const WCHAR TSIRootKey[]=L"Software\\TortoiseSI";
+static const WCHAR ExplorerEnvPath[]=L"%SystemRoot%\\explorer.exe";
 
-	DWORD bDebug = 0;
+void writeEvent(std::wstring message, WORD wType) {
+	HANDLE hEventSource = NULL;
+	LPCWSTR lpszStrings[2] = { NULL, NULL };
+	const wchar_t *name = L"TortoiseSI";
 
-	HKEY hKey = HKEY_CURRENT_USER;
-	LONG Result = ERROR;
-	DWORD Type = REG_DWORD;
-	DWORD Len = sizeof(DWORD);
+	hEventSource = RegisterEventSource(NULL, name);
+	if (hEventSource) {
+		lpszStrings[0] = name;
+		lpszStrings[1] = message.c_str();
 
-	BOOL bDebugActive = FALSE;
+		ReportEvent(hEventSource,		// Event log handle
+			wType,						// Event type
+			0,							// Event category
+			0,							// Event identifier
+			NULL,						// No security identifier
+			ARRAYSIZE(lpszStrings),		// Size of lpszStrings array
+			0,							// No binary data
+			lpszStrings,				// Array of strings
+			NULL						// No binary data
+			);
 
-
-	TRACE(_T("DebugActive() - Enter\n"));
-
-	if (IsDebuggerPresent())
-	{
-		Result = RegOpenKeyEx(HKEY_LOCAL_MACHINE, TSIRootKey, 0, KEY_READ, &hKey);
-		if (Result == ERROR_SUCCESS)
-		{
-			Result = RegQueryValueEx(hKey, ExplorerOnlyValue, NULL, &Type, (BYTE *)&bDebug, &Len);
-			if ((Result == ERROR_SUCCESS) && (Type == REG_DWORD) && (Len == sizeof(DWORD)) && bDebug)
-			{
-				TRACE(_T("DebugActive() - debug active\n"));
-				bDebugActive = TRUE;
-			}
-
-			RegCloseKey(hKey);
-		}
+		DeregisterEventSource(hEventSource);
 	}
+}
 
-	TRACE(_T("WantRealVersion() - Exit\n"));
-	return bDebugActive;
+//
+//   FUNCTION: EventLog::writeErrorLogEntry(wstring)
+//
+//   PURPOSE: Log an ERROR type message to the Application event log.
+//
+//   PARAMETERS:
+//   * error - the error message
+//
+void writeError(std::wstring error) {
+	writeEvent(error, EVENTLOG_ERROR_TYPE);
+}
+//
+//   FUNCTION: EventLog::writeInformationLogEntry(wstring)
+//
+//   PURPOSE: Log an INFORMATION type message to the Application event log.
+//
+//   PARAMETERS:
+//   * info - the information message
+//
+void writeInformation(std::wstring info) {
+	writeEvent(info, EVENTLOG_INFORMATION_TYPE);
 }
 
 /**
@@ -74,11 +87,7 @@ static BOOL DebugActive(void)
  */
 static BOOL WantRealVersion(void)
 {
-	static const WCHAR TSIRootKey[]=_T("Software\\TortoiseSI");
-	static const WCHAR ExplorerOnlyValue[]=_T("LoadDllOnlyInExplorer");
-
-	static const WCHAR ExplorerEnvPath[]=_T("%SystemRoot%\\explorer.exe");
-
+	static const WCHAR ExplorerOnlyValue[]=L"LoadDllOnlyInExplorer";
 
 	DWORD bExplorerOnly = 0;
 	WCHAR ModuleName[MAX_PATH] = {0};
@@ -90,43 +99,109 @@ static BOOL WantRealVersion(void)
 
 	BOOL bWantReal = TRUE;
 
-	TRACE(_T("WantRealVersion() - Enter\n"));
-
 	Result = RegOpenKeyEx(HKEY_CURRENT_USER, TSIRootKey, 0, KEY_READ, &hKey);
 	if (Result == ERROR_SUCCESS)
 	{
 		Result = RegQueryValueEx(hKey, ExplorerOnlyValue, NULL, &Type, (BYTE *)&bExplorerOnly, &Len);
 		if ((Result == ERROR_SUCCESS) && (Type == REG_DWORD) && (Len == sizeof(DWORD)) && bExplorerOnly)
 		{
-			TRACE(_T("WantRealVersion() - Explorer Only\n"));
-
 			// check if the current process is in fact the explorer
 			Len = GetModuleFileName(NULL, ModuleName, _countof(ModuleName));
 			if (Len)
 			{
-				TRACE(_T("Process is %s\n"), ModuleName);
-
 				WCHAR ExplorerPath[MAX_PATH] = {0};
 				Len = ExpandEnvironmentStrings(ExplorerEnvPath, ExplorerPath, _countof(ExplorerPath));
 				if (Len && (Len <= _countof(ExplorerPath)))
 				{
-					TRACE(_T("Explorer path is %s\n"), ExplorerPath);
 					bWantReal = !lstrcmpi(ModuleName, ExplorerPath);
 				}
 
 				// we also have to allow the verclsid.exe process - that process determines
 				// first whether the shell is allowed to even use an extension.
 				Len = lstrlen(ModuleName);
-				if ((Len > 13)&&(lstrcmpi(&ModuleName[Len-13], _T("\\verclsid.exe")) == 0))
+				if ((Len > 13)&&(lstrcmpi(&ModuleName[Len-13], L"\\verclsid.exe") == 0))
 					bWantReal = TRUE;
 			}
 		}
 
 		RegCloseKey(hKey);
 	}
-
-	TRACE(_T("WantRealVersion() - Exit\n"));
 	return bWantReal;
+}
+
+static std::wstring PathToDebugDll()
+{
+	WCHAR dllPath[MAX_PATH] = {0};
+#ifdef _WIN64
+	WCHAR dubugDllPathKey[] = L"DebugDllLocation";
+#else
+	WCHAR dubugDllPathKey[] = L"DebugDll32Location";
+#endif
+	
+	HKEY hKey = HKEY_CURRENT_USER;
+	LONG Result = ERROR;
+	DWORD Type = REG_SZ;
+	DWORD length = sizeof(dllPath);
+
+	std::wstring path;
+
+	Result = RegOpenKeyEx(HKEY_CURRENT_USER, TSIRootKey, 0, KEY_READ, &hKey);
+	if (Result == ERROR_SUCCESS)
+	{
+		Result = RegQueryValueEx(hKey, dubugDllPathKey, NULL, &Type, (BYTE *)&dllPath, &length);
+		length = length / 2; // 2 bytes per character
+
+		if ((Result == ERROR_SUCCESS) && (Type == REG_SZ) && (length > 0) && dllPath)
+		{
+			// don't include the null terminating character, wstring adds one for us
+			if (dllPath[length-1] == '\0') {
+				length--;
+			}
+
+			RegCloseKey(hKey);
+			std::wstring path = std::wstring(dllPath, length);
+
+			if (path[path.length()-1] != '\\' || path[path.length()-1] != '/') {
+				path += L"\\";
+			}
+			return path;
+		}
+
+		RegCloseKey(hKey);
+	}
+
+	// use same folder location as this dll
+	length = GetModuleFileName(hInst, dllPath, _countof(dllPath));
+	if (!length)
+	{
+		writeError(L"PathToDll - failed to get location of TortoiseStub");
+		return L"";
+	}
+
+	// truncate the string at the last '\' char
+	while(length > 0)
+	{
+		--length;
+		if (dllPath[length] == '\\')
+		{
+			// don't set the null terminating character, wstring does it for us
+			break;
+		}
+	}
+
+	if (length == 0)
+	{
+		writeError(L"PathToDll - failed to get location of " + std::wstring(dllPath));
+		return L"";
+	}
+	return std::wstring(dllPath, length+1);
+}
+
+std::wstring getProcessFilesName()
+{
+	WCHAR moduleName[MAX_PATH] = { 0 };
+	GetModuleFileName(NULL, moduleName, _countof(moduleName));
+	return std::wstring(moduleName);
 }
 
 static void LoadRealLibrary(void)
@@ -134,70 +209,44 @@ static void LoadRealLibrary(void)
 	static const char GetClassObject[] = "DllGetClassObject";
 	static const char CanUnloadNow[] = "DllCanUnloadNow";
 
-	WCHAR ModuleName[MAX_PATH] = {0};
-	DWORD Len = 0;
-	HINSTANCE hUseInst = hInst;
-
 	if (hTortoiseSI)
 		return;
 
 	if (!WantRealVersion())
 	{
-		TRACE(_T("LoadRealLibrary() - Bypass\n"));
-		hTortoiseSI = NIL;
-		return;
-	}
-	// if HKCU\Software\TortoiseSI\DebugShell is set, load the dlls from the location of the current process
-	// which is for our debug purposes an instance of usually TortoiseProc. That way we can force the load
-	// of the debug dlls.
-	if (DebugActive())
-		hUseInst = NULL;
-	Len = GetModuleFileName(hUseInst, ModuleName, _countof(ModuleName));
-	if (!Len)
-	{
-		TRACE(_T("LoadRealLibrary() - Fail\n"));
+		writeInformation(L"not loading TortoiseSI, loading only enabled for explorer.exe, current module = " + getProcessFilesName());
 		hTortoiseSI = NIL;
 		return;
 	}
 
-	// truncate the string at the last '\' char
-	while(Len > 0)
-	{
-		--Len;
-		if (ModuleName[Len] == '\\')
-		{
-			ModuleName[Len] = '\0';
-			break;
-		}
-	}
-	if (Len == 0)
-	{
-		TRACE(_T("LoadRealLibrary() - Fail\n"));
+	std::wstring path = PathToDebugDll();
+	
+	if (path.size() == 0) {
 		hTortoiseSI = NIL;
 		return;
 	}
+
 #ifdef _WIN64
-	lstrcat(ModuleName, _T("\\TortoiseSI.dll"));
+	path += L"TortoiseSI.dll";
 #else
-	lstrcat(ModuleName, _T("\\TortoiseSI32.dll"));
+	path += L"TortoiseSI32.dll";
 #endif
-	TRACE(_T("LoadRealLibrary() - Load %s\n"), ModuleName);
+	writeInformation(L"attempting to load dll = " + path);
 
-	hTortoiseSI = LoadLibraryEx(ModuleName, NULL, LOAD_WITH_ALTERED_SEARCH_PATH);
+	hTortoiseSI = LoadLibraryEx(path.c_str(), NULL, LOAD_WITH_ALTERED_SEARCH_PATH);
 	if (!hTortoiseSI)
 	{
-		TRACE(_T("LoadRealLibrary() - Fail\n"));
+		writeError(L"attempting to load dll = " + path + L" fail!");
 		hTortoiseSI = NIL;
 		return;
 	}
 
-	TRACE(_T("LoadRealLibrary() - Success\n"));
 	pDllGetClassObject = NULL;
 	pDllCanUnloadNow = NULL;
 	pDllGetClassObject = (LPFNGETCLASSOBJECT)GetProcAddress(hTortoiseSI, GetClassObject);
 	if (pDllGetClassObject == NULL)
 	{
-		TRACE(_T("LoadRealLibrary() - Fail\n"));
+		writeError(L"failed to find DllGetClassObject function");
 		FreeLibrary(hTortoiseSI);
 		hTortoiseSI = NIL;
 		return;
@@ -205,7 +254,7 @@ static void LoadRealLibrary(void)
 	pDllCanUnloadNow = (LPFNCANUNLOADNOW)GetProcAddress(hTortoiseSI, CanUnloadNow);
 	if (pDllCanUnloadNow == NULL)
 	{
-		TRACE(_T("LoadRealLibrary() - Fail\n"));
+		writeError(L"failed to find DllCanUnloadNow function");
 		FreeLibrary(hTortoiseSI);
 		hTortoiseSI = NIL;
 		return;
@@ -232,25 +281,8 @@ BOOL WINAPI DllMain(HINSTANCE hInstance, DWORD Reason, LPVOID /*Reserved*/)
 	// this prevents other apps from loading the dll and locking
 	// it.
 
-	BOOL bInShellTest = FALSE;
-	TCHAR buf[MAX_PATH + 1] = {0};       // MAX_PATH ok, the test really is for debugging anyway.
-	DWORD pathLength = GetModuleFileName(NULL, buf, MAX_PATH);
-
-	if (pathLength >= 14)
+	if (!IsDebuggerPresent())
 	{
-		if ((lstrcmpi(&buf[pathLength-14], _T("\\ShellTest.exe"))) == 0)
-		{
-			bInShellTest = TRUE;
-		}
-		if ((_tcsicmp(&buf[pathLength-13], _T("\\verclsid.exe"))) == 0)
-		{
-			bInShellTest = TRUE;
-		}
-	}
-
-	if (!IsDebuggerPresent() && !bInShellTest)
-	{
-		TRACE(_T("In debug load preventer\n"));
 		return FALSE;
 	}
 #endif
@@ -276,35 +308,27 @@ BOOL WINAPI DllMain(HINSTANCE hInstance, DWORD Reason, LPVOID /*Reserved*/)
 
 STDAPI DllGetClassObject(REFCLSID rclsid, REFIID riid, LPVOID *ppv)
 {
-	TRACE(_T("DllGetClassObject() - Enter\n"));
-
 	LoadRealLibrary();
 	if (!pDllGetClassObject)
 	{
 		if (ppv)
 			*ppv = NULL;
 
-		TRACE(_T("DllGetClassObject() - Bypass\n"));
 		return CLASS_E_CLASSNOTAVAILABLE;
 	}
 
-	TRACE(_T("DllGetClassObject() - Forward\n"));
 	return pDllGetClassObject(rclsid, riid, ppv);
 }
 
 STDAPI DllCanUnloadNow(void)
 {
-	TRACE(_T("DllCanUnloadNow() - Enter\n"));
-
 	if (pDllCanUnloadNow)
 	{
-		TRACE(_T("DllCanUnloadNow() - Forward\n"));
 		HRESULT Result = pDllCanUnloadNow();
 		if (Result != S_OK)
 			return Result;
 	}
 
-	TRACE(_T("DllCanUnloadNow() - Unload\n"));
 	UnloadRealLibrary();
 	return S_OK;
 }
