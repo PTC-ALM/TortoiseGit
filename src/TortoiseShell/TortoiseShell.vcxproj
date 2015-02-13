@@ -151,6 +151,7 @@
     <ClInclude Include="..\Utils\MiscUI\IconBitmapUtils.h" />
     <ClInclude Include="..\Utils\ReaderWriterLock.h" />
     <ClInclude Include="..\Utils\ShellUpdater.h" />
+    <ClInclude Include="AbstractCache.h" />
     <ClInclude Include="DebugEventLog.h" />
     <ClInclude Include="MenuInfo.h" />
     <ClInclude Include="RootFolderCache.h" />

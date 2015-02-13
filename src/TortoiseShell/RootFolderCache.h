@@ -19,29 +19,25 @@
 #pragma once
 
 #include "IntegritySession.h"
+#include "AbstractCache.h"
 
-class RootFolderCache {
+class RootFolderCache : public AbstractCache<std::vector<std::wstring>> {
 public:
 	RootFolderCache(const IntegritySession& integritySession) 
-		: refreshInProgress(false),
-		integritySession(integritySession){
+		: integritySession(integritySession){
 		forceRefresh();
 	};
 
 	bool isPathControlled(std::wstring path);
-	void forceRefresh();
-	std::vector<std::wstring> getRootFolders();
+	std::vector<std::wstring> getRootFolders(){ return getValue(); };
 
 private:
 	const IntegritySession& integritySession;
 
-	bool refreshInProgress;
-	std::mutex lockObject;
-	std::chrono::time_point<std::chrono::system_clock> lastRefresh;
-	std::vector<std::wstring> rootFolders;
-
-	bool refreshIfStale();
-	void updateFoldersList();
+protected:
+	virtual std::vector<std::wstring> fetchNewValue();
+	virtual std::chrono::seconds getCacheExpiryDuration();
+	virtual void cachedValueUpdated(std::vector<std::wstring> oldValue, std::vector<std::wstring> newValue);
 };
 
 extern bool startsWith(std::wstring text, std::wstring prefix);
