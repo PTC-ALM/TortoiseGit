@@ -51,10 +51,6 @@ extern bool					g_unversionedovlloaded;
 extern LPCTSTR				g_MenuIDString;
 
 extern	void				LoadLangDll();
-extern  CComCriticalSection	g_csGlobalCOMGuard;
-typedef CComCritSecLock<CComCriticalSection> AutoLocker;
-
-extern std::wstring getTortoiseSIString(DWORD stringID);
 
 // The actual OLE Shell context menu handler
 /**

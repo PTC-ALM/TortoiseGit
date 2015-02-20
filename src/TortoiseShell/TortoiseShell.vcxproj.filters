@@ -105,6 +105,9 @@
     <ClCompile Include="..\Integrity\IntegrityResponse.cpp">
       <Filter>Integrity</Filter>
     </ClCompile>
+    <ClCompile Include="ServerConnections.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="ShellExt.def">
@@ -209,6 +212,9 @@
       <Filter>Integrity</Filter>
     </ClInclude>
     <ClInclude Include="AbstractCache.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ServerConnections.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

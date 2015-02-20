@@ -138,12 +138,17 @@ std::unique_ptr<IntegrityResponse> IntegritySession::execute(const IntegrityComm
 		if (commandRunner != NULL) {
 			mksResponse response = mksCmdRunnerExecCmd(commandRunner, nativeIntegrityCommand.nativeCommand, NO_INTERIM);
 
-			return std::unique_ptr<IntegrityResponse>(new IntegrityResponse(commandRunner, response, command));
+			std::unique_ptr<IntegrityResponse> responseWrapper 
+				= std::unique_ptr<IntegrityResponse>(new IntegrityResponse(commandRunner, response, command));
+
+			if (responseWrapper->getException() != NULL) {
+				for (auto errorHandler : errorHandlers) {
+					errorHandler(responseWrapper->getException());
+				}
+			}
+
+			return responseWrapper;
 		}
 	}
 	return NULL;
 };
-
-std::future<std::unique_ptr<IntegrityResponse>> IntegritySession::executeAsync(const IntegrityCommand& command) const {
-	return std::async(std::launch::async, [&]() { return this->execute(command); } );
-}

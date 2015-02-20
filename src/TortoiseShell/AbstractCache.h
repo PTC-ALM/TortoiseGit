@@ -19,9 +19,16 @@
 
 #pragma once
 
+#include "IntegritySession.h"
+
 template<class CacheValueType> class AbstractCache {
 public:
-	AbstractCache() : refreshInProgress(false) {}
+	AbstractCache(const IntegritySession& integritySession) 
+		: refreshInProgress(false),
+		integritySession(integritySession) {
+
+		forceRefresh();
+	}
 
 	void forceRefresh();
 	CacheValueType getValue();
@@ -30,6 +37,8 @@ protected:
 	virtual std::chrono::seconds getCacheExpiryDuration() = 0;
 	virtual CacheValueType fetchNewValue() = 0;
 	virtual void cachedValueUpdated(const CacheValueType& /*oldValue*/, const CacheValueType& /*newValue*/){ };
+
+	const IntegritySession& integritySession;
 
 private:
 	bool refreshInProgress;

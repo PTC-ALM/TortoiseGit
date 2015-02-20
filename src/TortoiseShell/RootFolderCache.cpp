@@ -1,4 +1,4 @@
-// TortoiseGit - a Windows shell extension for easy version control
+// TortoiseSI - a Windows shell extension for easy version control
 
 // Copyright (C) 2015 - TortoiseSI
 
@@ -20,7 +20,7 @@
 #include "stdafx.h"
 #include "RootFolderCache.h"
 #include "IntegrityActions.h"
-#include "ShellExt.h"
+#include "DebugEventLog.h"
 
 bool startsWith(std::wstring path, std::wstring potentialAncestor) 
 {
@@ -48,7 +48,7 @@ bool RootFolderCache::isPathControlled(std::wstring path)
 
 std::vector<std::wstring> RootFolderCache::fetchNewValue() 
 {
-	std::vector<std::wstring> rootFolders = IntegrityActions::getControlledPaths(integritySession);
+	std::vector<std::wstring> rootFolders = IntegrityActions::folders(integritySession);
 
 	// to lower case everything
 	for (std::wstring& rootPath : rootFolders) {
@@ -62,7 +62,7 @@ std::vector<std::wstring> RootFolderCache::fetchNewValue()
 	return rootFolders;
 }
 
-void RootFolderCache::cachedValueUpdated(const std::vector<std::wstring> oldValue, std::vector<std::wstring> newValue)
+void RootFolderCache::cachedValueUpdated(const std::vector<std::wstring>& oldValue, const std::vector<std::wstring>& newValue)
 {
 	std::vector<std::wstring> foldersAddedOrRemoved;
 
@@ -70,10 +70,17 @@ void RootFolderCache::cachedValueUpdated(const std::vector<std::wstring> oldValu
 		newValue.begin(), newValue.end(), std::back_inserter(foldersAddedOrRemoved));
 
 	// update shell with root folders that were added or removed
+	std::wstring debugLogMessage = L"";
 	for (std::wstring rootFolder : foldersAddedOrRemoved) {
-		EventLog::writeDebug(L"sending update notification for " + rootFolder);
+		if (EventLog::isDebugLoggingEnabled()) {
+			debugLogMessage += L" \n" + rootFolder;
+		}
 
 		SHChangeNotify(SHCNE_ATTRIBUTES, SHCNF_PATH | SHCNF_FLUSH, (LPCVOID)rootFolder.c_str(), NULL);
+	}
+
+	if (EventLog::isDebugLoggingEnabled()) {
+		EventLog::writeDebug(L"sending update notification for:" + debugLogMessage);
 	}
 };
 

@@ -44,4 +44,7 @@
 
 #include "SysInfo.h"
 #include "DebugOutput.h"
+
+typedef CComCritSecLock<CComCriticalSection> AutoLocker;
+
 #endif

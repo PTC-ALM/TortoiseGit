@@ -39,12 +39,14 @@ public:
 	~IntegritySession();
 
 	std::unique_ptr<IntegrityResponse> execute(const IntegrityCommand& command) const;
-	std::future<std::unique_ptr<IntegrityResponse>> executeAsync(const IntegrityCommand& command) const;
+
+	std::vector<std::function<void(mksAPIException)>>& getErrorHandlers() { return errorHandlers; };
 
 private:
 	mksIntegrationPoint ip;
 	mksSession session;
 
+	std::vector<std::function<void(mksAPIException)>> errorHandlers;
 	void initAPI();
 };
 

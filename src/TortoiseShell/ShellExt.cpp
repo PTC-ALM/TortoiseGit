@@ -240,11 +240,17 @@ STDMETHODIMP_(ULONG) CShellExt::Release()
 }
 
 namespace EventLog {
-	void writeDebug(std::wstring info) {
+	void writeDebug(std::wstring info) 
+	{
 		if (g_ShellCache.IsDebugLogging()) {
 			EventLog::writeInformation(info);
 		}
 	}
+
+	extern bool isDebugLoggingEnabled()
+	{
+		return g_ShellCache.IsDebugLogging() == TRUE;
+	};
 }
 
 std::wstring getTortoiseSIString(DWORD stringID)

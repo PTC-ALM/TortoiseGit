@@ -4,8 +4,9 @@
 #include "RootFolderCache.h"
 #include "IntegritySession.h"
 #include "IntegrityActions.h"
-#include "ShellExt.h"
+#include "globals.h"
 #include "EventLog.h"
+#include "DebugEventLog.h"
 
 #undef min
 #undef max
@@ -17,20 +18,18 @@ public:
 	virtual FileStatusFlags getFileStatus(std::wstring fileName);
 	virtual void clear(std::wstring path);
 
-	virtual RootFolderCache& getRootFolderCache(){ return *rootFolderCache;  };
+	virtual RootFolderCache& getRootFolderCache() { return *rootFolderCache;  };
 	virtual IntegritySession& getIntegritySession() { return *integritySession; };
 	
 private:
 	std::unique_ptr<RootFolderCache> rootFolderCache;
+	std::unique_ptr<ServerConnections> serverConnectionsCache;
 	std::unique_ptr<IntegritySession> integritySession;
 
 	struct CachedEntry {
 		std::wstring path;
 		FileStatusFlags fileStatus;
 		std::chrono::time_point<std::chrono::system_clock> entryCreationTime;
-		int age;
-
-		CachedEntry() : age(0) {}
 	};
 
 	struct CachedResult {
@@ -43,7 +42,6 @@ private:
 
 	static const int cacheSize = 10;
 	static const std::chrono::seconds entryExpiryTime;
-	int lastAge;
 	CachedEntry cachedStatus[cacheSize];
 	std::mutex cacheLockObject;
 
@@ -77,7 +75,7 @@ SmallFixedInProcessCache::SmallFixedInProcessCache()
 		integritySession = std::unique_ptr<IntegritySession>(new IntegritySession());
 	}
 	rootFolderCache = std::unique_ptr<RootFolderCache>(new RootFolderCache(*integritySession));
-	lastAge = 0;
+	serverConnectionsCache = std::unique_ptr<ServerConnections>(new ServerConnections(*integritySession));
 }
 
 SmallFixedInProcessCache::CachedResult SmallFixedInProcessCache::findCachedStatus(const std::wstring& path) {
@@ -85,7 +83,6 @@ SmallFixedInProcessCache::CachedResult SmallFixedInProcessCache::findCachedStatu
 
 	for (CachedEntry& entry : cachedStatus) {
 		if (entry.path == path && (entry.entryCreationTime - std::chrono::system_clock::now()) < entryExpiryTime) {
-			entry.age = ++lastAge;
 			entry.entryCreationTime = std::chrono::system_clock::now();
 			return CachedResult(entry.fileStatus);
 		}
@@ -97,7 +94,6 @@ void SmallFixedInProcessCache::addCachedStatus(const std::wstring& path, FileSta
 	std::lock_guard<std::mutex> lock(cacheLockObject);
 
 	// find oldest
-	int oldestEntryAge = std::numeric_limits<int>::max();
 	int oldestEntryIndex = -1;
 	for (int i = 0; i < cacheSize; i++) {
 		// unused entry
@@ -106,27 +102,31 @@ void SmallFixedInProcessCache::addCachedStatus(const std::wstring& path, FileSta
 			break;
 		}
 
-		if (cachedStatus[i].age < oldestEntryAge || 
-			(cachedStatus[i].entryCreationTime - std::chrono::system_clock::now()) < entryExpiryTime) {
+		if ((cachedStatus[i].entryCreationTime - std::chrono::system_clock::now()) < entryExpiryTime) {
 			oldestEntryIndex = i;
-			oldestEntryAge = cachedStatus[i].age;
 		}
 	}
 
 	cachedStatus[oldestEntryIndex].path = path;
 	cachedStatus[oldestEntryIndex].fileStatus = fileStatus;
-	cachedStatus[oldestEntryIndex].age = ++lastAge;
+	cachedStatus[oldestEntryIndex].entryCreationTime = std::chrono::system_clock::now();
 }
 
 FileStatusFlags SmallFixedInProcessCache::getFileStatus(std::wstring fileName)
 {
+	if (!serverConnectionsCache->isOnline()) {
+		EventLog::writeDebug(L"status cache bailing out, not connected to server");
+		return (FileStatusFlags)FileStatus::None;
+	}
+
 	CachedResult result = findCachedStatus(fileName);
 	if (result.valid) {
 		return result.fileStatus;
 	}
 
-	FileStatusFlags status = IntegrityActions::getFileStatus(*integritySession, fileName);
-	if (status != (FileStatusFlags)FileStatus::TimeoutError) {
+	FileStatusFlags status = IntegrityActions::fileInfo(*integritySession, fileName);
+
+	if ((status & FileStatus::ErrorMask) == FileStatus::None) {
 		addCachedStatus(fileName, status);
 	}
 	return status;
@@ -137,7 +137,6 @@ void SmallFixedInProcessCache::clear(std::wstring path) {
 
 	for (CachedEntry& entry : cachedStatus) {
 		if (entry.path == path) {
-			entry.age = 0;
 			entry.path = L"";
 			return;
 		}

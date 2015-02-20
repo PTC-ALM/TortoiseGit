@@ -26,9 +26,14 @@
 
 namespace IntegrityActions {
 	// get status flags for a set of files...
-	FileStatusFlags getFileStatus(const IntegritySession& session, const std::wstring& files);
+	FileStatusFlags fileInfo(const IntegritySession& session, const std::wstring& files);
 
-	std::vector<std::wstring> getControlledPaths(const IntegritySession& session);
+	// list of controlled folders (ie with a sandbox) 
+	std::vector<std::wstring> folders(const IntegritySession& session);
+
+	// list of server connections the client has
+	std::vector<std::wstring> servers(const IntegritySession& session);
+	bool connect(const IntegritySession& session);
 
 	void launchSandboxView(const IntegritySession& session, std::wstring path);
 	void launchMemberHistoryView(const IntegritySession& session, std::wstring path);
