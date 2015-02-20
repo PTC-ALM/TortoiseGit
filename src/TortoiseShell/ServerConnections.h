@@ -30,6 +30,7 @@ public:
 protected:
 	virtual std::vector<std::wstring> fetchNewValue();
 	virtual std::chrono::seconds getCacheExpiryDuration();
+	virtual void cachedValueUpdated(const std::vector<std::wstring>& oldValue, const std::vector<std::wstring>& newValue);
 
 private:
 	void tryToConnect();
@@ -40,7 +41,9 @@ private:
 
 	CHandle sharedInterProcessMutex;
 
-	enum ConnectionState { Online, Offline, Prompting, Uninitilised, NumStates /* must be last*/ };
+	enum ConnectionState { Online, Offline, Prompting, Uninitialized, NumStates /* must be last*/ };
+
+	CRegDWORD connectionState;
 
 	ConnectionState getState();
 };

@@ -24,8 +24,6 @@
 #include "DebugEventLog.h"
 #include "registry.h"
 
-enum ConnectionState { Online, Offline, Prompting, Uninitilised, NumStates /* must be last*/ };
-
 class MutexLocker {
 public:
 	MutexLocker(CHandle& handle) : handle(handle) {
@@ -39,10 +37,10 @@ private:
 	CHandle& handle;
 };
 
-CRegDWORD connectionState(L"Software\\TortoiseSI\\__InternalConnectionState", (DWORD)ConnectionState::Uninitilised, true);
 
 ServerConnections::ServerConnections(IntegritySession& integritySession)
-	: AbstractCache(integritySession) 
+	: AbstractCache(integritySession),
+	connectionState(L"Software\\TortoiseSI\\__InternalConnectionState", (DWORD)ServerConnections::ConnectionState::Uninitialized, true)
 {
 	sharedInterProcessMutex.Attach(CreateMutex(NULL, TRUE, L"TortoiseSI Connection Mutex"));
 
@@ -108,7 +106,7 @@ bool ServerConnections::isOnline()
 		MutexLocker lock(sharedInterProcessMutex);
 		ConnectionState state = getState();
 
-		if (state == ConnectionState::Uninitilised) {
+		if (state == ConnectionState::Uninitialized) {
 			if (!getValue().empty()) {
 				transitionToOnlineState();
 				state = ConnectionState::Online;
@@ -135,7 +133,7 @@ ServerConnections::ConnectionState ServerConnections::getState()
 
 	DWORD regValue = (DWORD)connectionState;
 	if (regValue < 0 || regValue >= ConnectionState::NumStates) {
-		return ConnectionState::Uninitilised;
+		return ConnectionState::Uninitialized;
 	} else {
 		return (ConnectionState)(DWORD)connectionState;
 	}
@@ -160,3 +158,15 @@ std::chrono::seconds ServerConnections::getCacheExpiryDuration()
 	return std::chrono::seconds(30); // TODO configure from registry?
 };
 
+void ServerConnections::cachedValueUpdated(const std::vector<std::wstring>& /*oldValue*/, const std::vector<std::wstring>& newValue)
+{
+	if (!newValue.empty()) {
+		MutexLocker lock(sharedInterProcessMutex);
+
+		ConnectionState state = getState();
+		if (ConnectionState::Offline == state || 
+			ConnectionState::Uninitialized == state) {
+			transitionToOnlineState();
+		}
+	}
+}
