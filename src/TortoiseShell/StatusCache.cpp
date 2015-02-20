@@ -83,7 +83,7 @@ SmallFixedInProcessCache::CachedResult SmallFixedInProcessCache::findCachedStatu
 	std::lock_guard<std::mutex> lock(cacheLockObject);
 
 	for (CachedEntry& entry : cachedStatus) {
-		if (entry.path == path && (entry.entryCreationTime - std::chrono::system_clock::now()) < entryExpiryTime) {
+		if (entry.path == path && (std::chrono::system_clock::now() - entry.entryCreationTime) < entryExpiryTime) {
 			entry.entryCreationTime = std::chrono::system_clock::now();
 			return CachedResult(entry.fileStatus);
 		}

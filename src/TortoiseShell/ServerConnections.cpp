@@ -42,7 +42,7 @@ ServerConnections::ServerConnections(IntegritySession& integritySession)
 	: AbstractCache(integritySession),
 	connectionState(L"Software\\TortoiseSI\\__InternalConnectionState", (DWORD)ServerConnections::ConnectionState::Uninitialized, true)
 {
-	sharedInterProcessMutex.Attach(CreateMutex(NULL, TRUE, L"TortoiseSI Connection Mutex"));
+	sharedInterProcessMutex.Attach(CreateMutex(NULL, FALSE, L"TortoiseSI Connection Mutex"));
 
 	integritySession.getErrorHandlers().push_back(
 		[&](mksAPIException exception) {  
@@ -56,7 +56,24 @@ void ServerConnections::transitionToPromptingState()
 
 	connectionState = (DWORD)ConnectionState::Prompting;
 
-	std::async(std::launch::async, [&]{ this->tryToConnect(); });
+	try {
+		std::async(std::launch::async, 
+		[&]{ 
+			try {
+				this->tryToConnect(); 
+			}
+			catch (std::exception) {
+				connectionState = (DWORD)ConnectionState::Offline;
+
+				throw;
+			}
+		});
+	}
+	catch (std::exception) {
+		connectionState = (DWORD)ConnectionState::Offline;
+
+		throw;
+	}
 }
 
 void ServerConnections::transitionToOnlineState()
@@ -135,7 +152,7 @@ ServerConnections::ConnectionState ServerConnections::getState()
 	if (regValue < 0 || regValue >= ConnectionState::NumStates) {
 		return ConnectionState::Uninitialized;
 	} else {
-		return (ConnectionState)(DWORD)connectionState;
+		return (ConnectionState)(DWORD)regValue;
 	}
 }
 

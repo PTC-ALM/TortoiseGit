@@ -42,9 +42,13 @@ protected:
 
 private:
 	bool refreshInProgress;
-	std::mutex lockObject;
+
+	typedef std::recursive_mutex MutexType;
+	typedef std::lock_guard<MutexType> LockGuard;
+
+	MutexType lockObject;
 	std::chrono::time_point<std::chrono::system_clock> lastRefresh;
-	std::atomic<CacheValueType> cachedValue;
+	CacheValueType cachedValue;
 
 	bool refreshIfStale();
 	void updateCacheValue();
@@ -53,7 +57,7 @@ private:
 template<class CacheValueType>
 CacheValueType AbstractCache<CacheValueType>::getValue()
 {
-	std::lock_guard<std::mutex> lock(lockObject);
+	LockGuard lock(lockObject);
 
 	refreshIfStale();
 
@@ -63,7 +67,7 @@ CacheValueType AbstractCache<CacheValueType>::getValue()
 template<class CacheValueType>
 bool AbstractCache<CacheValueType>::refreshIfStale()
 {
-	std::lock_guard<std::mutex> lock(lockObject);
+	LockGuard lock(lockObject);
 
 	auto now = std::chrono::system_clock::now();
 
@@ -81,7 +85,7 @@ template<class CacheValueType>
 void AbstractCache<CacheValueType>::forceRefresh()
 {
 	{
-		std::lock_guard<std::mutex> lock(lockObject);
+		LockGuard lock(lockObject);
 
 		if (refreshInProgress) {
 			return;
@@ -101,7 +105,7 @@ void AbstractCache<CacheValueType>::updateCacheValue()
 	std::vector<std::wstring> oldValue;
 
 	{
-		std::lock_guard<std::mutex> lock(lockObject);
+		LockGuard lock(lockObject);
 
 		oldValue = this->cachedValue;
 		this->cachedValue = newValue;
