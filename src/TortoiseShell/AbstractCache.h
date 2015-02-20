@@ -44,7 +44,7 @@ private:
 	bool refreshInProgress;
 	std::mutex lockObject;
 	std::chrono::time_point<std::chrono::system_clock> lastRefresh;
-	CacheValueType cachedValue;
+	std::atomic<CacheValueType> cachedValue;
 
 	bool refreshIfStale();
 	void updateCacheValue();
@@ -54,6 +54,8 @@ template<class CacheValueType>
 CacheValueType AbstractCache<CacheValueType>::getValue()
 {
 	std::lock_guard<std::mutex> lock(lockObject);
+
+	refreshIfStale();
 
 	return cachedValue;
 };
