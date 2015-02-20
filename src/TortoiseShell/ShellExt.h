@@ -51,15 +51,14 @@ extern bool					g_unversionedovlloaded;
 extern LPCTSTR				g_MenuIDString;
 
 extern	void				LoadLangDll();
-
 // The actual OLE Shell context menu handler
 /**
- * \ingroup TortoiseShell
- * The main class of our COM object / Shell Extension.
- * It contains all Interfaces we implement for the shell to use.
- * \remark The implementations of the different interfaces are
- * split into several *.cpp files to keep them in a reasonable size.
- */
+* \ingroup TortoiseShell
+* The main class of our COM object / Shell Extension.
+* It contains all Interfaces we implement for the shell to use.
+* \remark The implementations of the different interfaces are
+* split into several *.cpp files to keep them in a reasonable size.
+*/
 class CShellExt : public IContextMenu,
 							IShellExtInit,
 							IShellIconOverlayIdentifier,
@@ -171,6 +170,6 @@ public:
 	 */
 	//@{
 	STDMETHODIMP	AddPages(LPFNADDPROPSHEETPAGE lpfnAddPage, LPARAM lParam);
-	STDMETHODIMP	ReplacePage (UINT, LPFNADDPROPSHEETPAGE, LPARAM);
+	STDMETHODIMP	ReplacePage(UINT, LPFNADDPROPSHEETPAGE, LPARAM);
 	//@}
 };

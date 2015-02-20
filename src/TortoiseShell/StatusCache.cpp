@@ -4,6 +4,7 @@
 #include "RootFolderCache.h"
 #include "IntegritySession.h"
 #include "IntegrityActions.h"
+#include "ServerConnections.h"
 #include "globals.h"
 #include "EventLog.h"
 #include "DebugEventLog.h"

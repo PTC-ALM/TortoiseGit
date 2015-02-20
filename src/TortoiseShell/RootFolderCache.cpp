@@ -46,7 +46,7 @@ bool RootFolderCache::isPathControlled(std::wstring path)
 	return false;
 }
 
-std::vector<std::wstring> RootFolderCache::fetchNewValue() 
+std::vector<std::wstring> RootFolderCache::fetchNewValue()
 {
 	std::vector<std::wstring> rootFolders = IntegrityActions::folders(integritySession);
 
@@ -59,6 +59,7 @@ std::vector<std::wstring> RootFolderCache::fetchNewValue()
 		std::transform(rootPath.begin(), rootPath.end(), rootPath.begin(), ::tolower);
 	}
 
+	std::sort(rootFolders.begin(), rootFolders.end(), std::less<std::wstring>());
 	return rootFolders;
 }
 

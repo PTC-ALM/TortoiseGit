@@ -43,5 +43,6 @@ enum FileState
 
 extern std::wstring to_wstring(FileState fileState);
 extern std::wstring getTortoiseSIString(DWORD stringID);
+extern std::wstring getFormattedTortoiseSIString(DWORD stringID, ...);
 
 extern  CComCriticalSection	g_csGlobalCOMGuard;
