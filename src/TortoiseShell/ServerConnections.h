@@ -16,12 +16,35 @@
 // along with this program; if not, write to the Free Software Foundation,
 // 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 //
+
 #pragma once
 
-#include "EventLog.h"
+#include "AbstractCache.h"
 
-// note this check the regsittry to see if debug logging is enabled, DO NOT CALL FROM DllMain!!
-namespace EventLog {
-	extern void writeDebug(std::wstring info);
-	extern bool isDebugLoggingEnabled();
-}
+class ServerConnections : protected AbstractCache<std::vector<std::wstring>>{
+public:
+	ServerConnections(IntegritySession& integritySession);
+
+	bool isOnline();
+
+protected:
+	virtual std::vector<std::wstring> fetchNewValue();
+	virtual std::chrono::seconds getCacheExpiryDuration();
+	virtual void cachedValueUpdated(const std::vector<std::wstring>& oldValue, const std::vector<std::wstring>& newValue);
+
+private:
+	void tryToConnect();
+	void onConnectionError(mksAPIException exception);
+	void transitionToPromptingState();
+	void transitionToOnlineState();
+	void transitionToOfflineState();
+
+	CHandle sharedInterProcessMutex;
+
+	enum ConnectionState { Online, Offline, Prompting, Uninitialized, NumStates /* must be last*/ };
+
+	CRegDWORD connectionState;
+
+	ConnectionState getState();
+};
+

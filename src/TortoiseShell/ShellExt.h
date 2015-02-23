@@ -51,12 +51,6 @@ extern bool					g_unversionedovlloaded;
 extern LPCTSTR				g_MenuIDString;
 
 extern	void				LoadLangDll();
-extern  CComCriticalSection	g_csGlobalCOMGuard;
-typedef CComCritSecLock<CComCriticalSection> AutoLocker;
-
-extern std::wstring getTortoiseSIString(DWORD stringID);
-extern std::wstring getFormattedTortoiseSIString(DWORD stringID, ...);
-
 // The actual OLE Shell context menu handler
 /**
 * \ingroup TortoiseShell
@@ -66,9 +60,9 @@ extern std::wstring getFormattedTortoiseSIString(DWORD stringID, ...);
 * split into several *.cpp files to keep them in a reasonable size.
 */
 class CShellExt : public IContextMenu,
-	IShellExtInit,
-	IShellIconOverlayIdentifier,
-	IShellPropSheetExt
+							IShellExtInit,
+							IShellIconOverlayIdentifier,
+							IShellPropSheetExt
 
 {
 protected:
@@ -100,8 +94,8 @@ private:
 	FileStatusFlags	getPathStatus(std::wstring path);
 
 	/** \name IContextMenu wrappers
-	* IContextMenu wrapper functions to catch exceptions and send crash reports
-	*/
+	 * IContextMenu wrapper functions to catch exceptions and send crash reports
+	 */
 	//@{
 	STDMETHODIMP	QueryContextMenu_Wrap(HMENU hMenu, UINT indexMenu, UINT idCmdFirst, UINT idCmdLast, UINT uFlags);
 	STDMETHODIMP	InvokeCommand_Wrap(LPCMINVOKECOMMANDINFO lpcmi);
@@ -109,15 +103,15 @@ private:
 	//@}
 
 	/** \name IShellExtInit wrappers
-	* IShellExtInit wrapper functions to catch exceptions and send crash reports
-	*/
+	 * IShellExtInit wrapper functions to catch exceptions and send crash reports
+	 */
 	//@{
 	STDMETHODIMP	Initialize_Wrap(LPCITEMIDLIST pIDFolder, LPDATAOBJECT pDataObj, HKEY hKeyID);
 	//@}
 
 	/** \name IShellIconOverlayIdentifier wrappers
-	* IShellIconOverlayIdentifier wrapper functions to catch exceptions and send crash reports
-	*/
+	 * IShellIconOverlayIdentifier wrapper functions to catch exceptions and send crash reports
+	 */
 	//@{
 	STDMETHODIMP	GetOverlayInfo_Wrap(LPWSTR pwszIconFile, int cchMax, int *pIndex, DWORD *pdwFlags);
 	STDMETHODIMP	GetPriority_Wrap(int *pPriority);
@@ -125,8 +119,8 @@ private:
 	//@}
 
 	/** \name IShellPropSheetExt wrappers
-	* IShellPropSheetExt wrapper functions to catch exceptions and send crash reports
-	*/
+	 * IShellPropSheetExt wrapper functions to catch exceptions and send crash reports
+	 */
 	//@{
 	STDMETHODIMP	AddPages_Wrap(LPFNADDPROPSHEETPAGE lpfnAddPage, LPARAM lParam);
 	//STDMETHODIMP	ReplacePage_Wrap(UINT, LPFNADDPROPSHEETPAGE, LPARAM);
@@ -137,8 +131,8 @@ public:
 	virtual ~CShellExt();
 
 	/** \name IUnknown
-	* IUnknown members
-	*/
+	 * IUnknown members
+	 */
 	//@{
 	STDMETHODIMP         QueryInterface(REFIID, LPVOID FAR *);
 	STDMETHODIMP_(ULONG) AddRef();
@@ -146,8 +140,8 @@ public:
 	//@}
 
 	/** \name IContextMenu
-	* IContextMenu members
-	*/
+	 * IContextMenu members
+	 */
 	//@{
 	STDMETHODIMP	QueryContextMenu(HMENU hMenu, UINT indexMenu, UINT idCmdFirst, UINT idCmdLast, UINT uFlags);
 	STDMETHODIMP	InvokeCommand(LPCMINVOKECOMMANDINFO lpcmi);
@@ -156,15 +150,15 @@ public:
 
 
 	/** \name IShellExtInit
-	* IShellExtInit methods
-	*/
+	 * IShellExtInit methods
+	 */
 	//@{
 	STDMETHODIMP	Initialize(LPCITEMIDLIST pIDFolder, LPDATAOBJECT pDataObj, HKEY hKeyID);
 	//@}
 
 	/** \name IShellIconOverlayIdentifier
-	* IShellIconOverlayIdentifier methods
-	*/
+	 * IShellIconOverlayIdentifier methods
+	 */
 	//@{
 	STDMETHODIMP	GetOverlayInfo(LPWSTR pwszIconFile, int cchMax, int *pIndex, DWORD *pdwFlags);
 	STDMETHODIMP	GetPriority(int *pPriority);
@@ -172,8 +166,8 @@ public:
 	//@}
 
 	/** \name IShellPropSheetExt
-	* IShellPropSheetExt methods
-	*/
+	 * IShellPropSheetExt methods
+	 */
 	//@{
 	STDMETHODIMP	AddPages(LPFNADDPROPSHEETPAGE lpfnAddPage, LPARAM lParam);
 	STDMETHODIMP	ReplacePage(UINT, LPFNADDPROPSHEETPAGE, LPARAM);

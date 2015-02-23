@@ -35,45 +35,27 @@ static const IntegritySession& getIntegritySession() {
 }
 
 /**
-*  return true if there was a decentant path that was controlled
-*/
+ *  return true if there was a decentant path that was controlled
+ */
 bool warnIfPathHasControlledDecendantFolders(std::wstring path, HWND parentWindow) {
-	std::vector<std::wstring> folders = IStatusCache::getInstance().getRootFolderCache().getRootFolders();
-	const int maxPaths = 10;
-	int nPaths = 0;
-
 	std::transform(path.begin(), path.end(), path.begin(), ::tolower);
 
-	// show the user where the sandboxes when they are decandants of the current folder since
+	// show the user where the sandboxes when they are decandants of the current folder since 
 	// it may not be obvious to the user why they can't create a sandbox here
 	std::wstring message;
-	for (std::wstring rootFolder : folders) {
-
-		nPaths++;
-
+	for (std::wstring rootFolder : IStatusCache::getInstance().getRootFolderCache().getRootFolders()) {
 		if (startsWith(rootFolder, path)) {
 			if (message.empty()) {
 				message = getTortoiseSIString(IDS_SANDBOX_NOTALLOWED1);
-				// Add message indicating we are showing only partial results
-				if (folders.size() > maxPaths) {
-					message += L"\n\t  " + getFormattedTortoiseSIString(IDS_SHOWING_PARTIAL_RESULTS, maxPaths, folders.size());
-				}
 			}
-
 			message += L"\n\t '" + rootFolder + L"'";
-
-			if (nPaths >= maxPaths) {
-				message += L"\n\t  " + getTortoiseSIString(IDS_ETC);
-				break;
-			}
 		}
 	}
 
 	if (!message.empty()) {
 		MessageBoxW(parentWindow, message.c_str(), NULL, MB_ICONERROR);
 		return true;
-	}
-	else {
+	} else {
 		return false;
 	}
 }
@@ -81,34 +63,34 @@ bool warnIfPathHasControlledDecendantFolders(std::wstring path, HWND parentWindo
 std::vector<MenuInfo> menuInfo =
 {
 	{ MenuItem::ViewSandbox, 0, IDS_VIEW_SANDBOX, IDS_VIEW_SANDBOX,
-	[](const std::vector<std::wstring>& selectedItems, HWND)
-	{
-		IntegrityActions::launchSandboxView(getIntegritySession(), selectedItems.front());
-	},
+		[](const std::vector<std::wstring>& selectedItems, HWND)
+		{
+			IntegrityActions::launchSandboxView(getIntegritySession(), selectedItems.front());
+		},
 		[](const std::vector<std::wstring>& selectedItems, FileStatusFlags selectedItemsStatus)
-	{
-		return selectedItems.size() == 1 &&
-			hasFileStatus(selectedItemsStatus, FileStatus::Folder) &&
-			hasFileStatus(selectedItemsStatus, FileStatus::Member);
-	}
+		{
+			return selectedItems.size() == 1 &&
+				hasFileStatus(selectedItemsStatus, FileStatus::Folder) &&
+				hasFileStatus(selectedItemsStatus, FileStatus::Member);
+		}
 	},
 	{ MenuItem::CreateSandbox, 0, IDS_CREATE_SANDBOX, IDS_CREATE_SANDBOX,
-	[](const std::vector<std::wstring>& selectedItems, HWND parentWindow)
-	{
-		if (warnIfPathHasControlledDecendantFolders(selectedItems.front(), parentWindow)) {
-			return;
+		[](const std::vector<std::wstring>& selectedItems, HWND parentWindow)
+		{
+			if (warnIfPathHasControlledDecendantFolders(selectedItems.front(), parentWindow)) {
+				return;
+			}
+
+			IntegrityActions::createSandbox(getIntegritySession(), selectedItems.front(),
+				[]{ IStatusCache::getInstance().getRootFolderCache().forceRefresh(); });
+			
+		},
+		[](const std::vector<std::wstring>& selectedItems, FileStatusFlags selectedItemsStatus) 
+		{
+			return selectedItems.size() == 1 &&
+				hasFileStatus(selectedItemsStatus, FileStatus::Folder) &&
+				!hasFileStatus(selectedItemsStatus, FileStatus::Member);
 		}
-
-		IntegrityActions::createSandbox(getIntegritySession(), selectedItems.front(),
-			[]{ IStatusCache::getInstance().getRootFolderCache().forceRefresh(); });
-
-	},
-		[](const std::vector<std::wstring>& selectedItems, FileStatusFlags selectedItemsStatus)
-	{
-		return selectedItems.size() == 1 &&
-			hasFileStatus(selectedItemsStatus, FileStatus::Folder) &&
-			!hasFileStatus(selectedItemsStatus, FileStatus::Member);
-	}
 	},
 	menuSeperator,
 

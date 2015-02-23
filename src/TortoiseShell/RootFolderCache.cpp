@@ -1,4 +1,4 @@
-// TortoiseGit - a Windows shell extension for easy version control
+// TortoiseSI - a Windows shell extension for easy version control
 
 // Copyright (C) 2015 - TortoiseSI
 
@@ -20,43 +20,7 @@
 #include "stdafx.h"
 #include "RootFolderCache.h"
 #include "IntegrityActions.h"
-#include "ShellExt.h"
-
-std::vector<std::wstring> RootFolderCache::getRootFolders()
-{
-	std::lock_guard<std::mutex> lock(lockObject);
-
-	return rootFolders;
-};
-
-bool RootFolderCache::refreshIfStale() 
-{
-	std::lock_guard<std::mutex> lock( lockObject );
-
-	auto now = std::chrono::system_clock::now();
-
-	if (now - lastRefresh > std::chrono::seconds(60) && !refreshInProgress) {
-		refreshInProgress = true;
-		std::async(std::launch::async, [&]{ this->updateFoldersList(); });
-		return true;
-	} else {
-		return false;
-	}
-}
-
-void RootFolderCache::forceRefresh() 
-{
-	{
-		std::lock_guard<std::mutex> lock( lockObject );
-
-		if (refreshInProgress) {
-			return;
-		}
-		refreshInProgress = true;
-	}
-
-	std::async(std::launch::async, [&]{ this->updateFoldersList(); });
-}
+#include "DebugEventLog.h"
 
 bool startsWith(std::wstring path, std::wstring potentialAncestor) 
 {
@@ -71,26 +35,20 @@ bool startsWith(std::wstring path, std::wstring potentialAncestor)
 
 bool RootFolderCache::isPathControlled(std::wstring path)
 {
-	refreshIfStale();
-
 	std::transform(path.begin(), path.end(), path.begin(), ::tolower);
 
-	{
-		std::lock_guard<std::mutex> lock( lockObject );
-
-		// TODO binary search...?
-		for (std::wstring rootPath : rootFolders) {
-			if (startsWith(path, rootPath)) {
-				return true;
-			}
+	// TODO binary search...?
+	for (std::wstring rootPath : getRootFolders()) {
+		if (startsWith(path, rootPath)) {
+			return true;
 		}
-		return false;
 	}
+	return false;
 }
 
-void RootFolderCache::updateFoldersList()
+std::vector<std::wstring> RootFolderCache::fetchNewValue()
 {
-	std::vector<std::wstring> rootFolders = IntegrityActions::getControlledPaths(integritySession);
+	std::vector<std::wstring> rootFolders = IntegrityActions::folders(integritySession);
 
 	// to lower case everything
 	for (std::wstring& rootPath : rootFolders) {
@@ -102,28 +60,33 @@ void RootFolderCache::updateFoldersList()
 	}
 
 	std::sort(rootFolders.begin(), rootFolders.end(), std::less<std::wstring>());
+	return rootFolders;
+}
 
-	// lock cach and copy back
-	std::vector<std::wstring> oldRootFolders;
-
-	{
-		std::lock_guard<std::mutex> lock( lockObject );
-
-		oldRootFolders = this->rootFolders;
-		this->rootFolders = rootFolders;
-		this->lastRefresh = std::chrono::system_clock::now();
-		this->refreshInProgress = false;
-	}
-
+void RootFolderCache::cachedValueUpdated(const std::vector<std::wstring>& oldValue, const std::vector<std::wstring>& newValue)
+{
 	std::vector<std::wstring> foldersAddedOrRemoved;
 
-	std::set_symmetric_difference(oldRootFolders.begin(), oldRootFolders.end(),
-			rootFolders.begin(), rootFolders.end(), std::back_inserter(foldersAddedOrRemoved));
+	std::set_symmetric_difference(oldValue.begin(), oldValue.end(),
+		newValue.begin(), newValue.end(), std::back_inserter(foldersAddedOrRemoved));
 
 	// update shell with root folders that were added or removed
+	std::wstring debugLogMessage = L"";
 	for (std::wstring rootFolder : foldersAddedOrRemoved) {
-		EventLog::writeDebug(L"sending update notification for " + rootFolder);
+		if (EventLog::isDebugLoggingEnabled()) {
+			debugLogMessage += L" \n" + rootFolder;
+		}
 
-		SHChangeNotify(SHCNE_ATTRIBUTES, SHCNF_PATH| SHCNF_FLUSH, (LPCVOID) rootFolder.c_str(), NULL );
+		SHChangeNotify(SHCNE_ATTRIBUTES, SHCNF_PATH | SHCNF_FLUSH, (LPCVOID)rootFolder.c_str(), NULL);
 	}
+
+	if (EventLog::isDebugLoggingEnabled()) {
+		EventLog::writeDebug(L"sending update notification for:" + debugLogMessage);
+	}
+};
+
+
+std::chrono::seconds RootFolderCache::getCacheExpiryDuration()
+{
+	return std::chrono::seconds(60); // TODO confirable via registry?
 }

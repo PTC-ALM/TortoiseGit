@@ -47,7 +47,7 @@ CShellExt::CShellExt(FileState state)
 
 	INITCOMMONCONTROLSEX used = {
 		sizeof(INITCOMMONCONTROLSEX),
-		ICC_LISTVIEW_CLASSES | ICC_WIN95_CLASSES | ICC_BAR_CLASSES | ICC_USEREX_CLASSES
+			ICC_LISTVIEW_CLASSES | ICC_WIN95_CLASSES | ICC_BAR_CLASSES | ICC_USEREX_CLASSES
 	};
 	InitCommonControlsEx(&used);
 	LoadLangDll();
@@ -62,17 +62,17 @@ CShellExt::~CShellExt()
 
 void LoadLangDll()
 {
-	if ((g_langid != g_ShellCache.GetLangID()) && ((g_langTimeout == 0) || (g_langTimeout < GetTickCount())))
+	if ((g_langid != g_ShellCache.GetLangID())&&((g_langTimeout == 0)||(g_langTimeout < GetTickCount())))
 	{
 		g_langid = g_ShellCache.GetLangID();
 		DWORD langId = g_langid;
-		TCHAR langDll[MAX_PATH * 4] = { 0 };
+		TCHAR langDll[MAX_PATH*4] = {0};
 		HINSTANCE hInst = NULL;
-		TCHAR langdir[MAX_PATH] = { 0 };
-		char langdirA[MAX_PATH] = { 0 };
-		if (GetModuleFileName(g_hmodThisDll, langdir, _countof(langdir)) == 0)
+		TCHAR langdir[MAX_PATH] = {0};
+		char langdirA[MAX_PATH] = {0};
+		if (GetModuleFileName(g_hmodThisDll, langdir, _countof(langdir))==0)
 			return;
-		if (GetModuleFileNameA(g_hmodThisDll, langdirA, _countof(langdirA)) == 0)
+		if (GetModuleFileNameA(g_hmodThisDll, langdirA, _countof(langdirA))==0)
 			return;
 		TCHAR * dirpoint = _tcsrchr(langdir, '\\');
 		char * dirpointA = strrchr(langdirA, '\\');
@@ -105,21 +105,21 @@ void LoadLangDll()
 				WORD wCharacterSet;
 			};
 
-			DWORD dwReserved, dwBufferSize;
-			dwBufferSize = GetFileVersionInfoSize((LPTSTR)langDll, &dwReserved);
+			DWORD dwReserved,dwBufferSize;
+			dwBufferSize = GetFileVersionInfoSize((LPTSTR)langDll,&dwReserved);
 
 			if (dwBufferSize > 0)
 			{
-				LPVOID pBuffer = (void*)malloc(dwBufferSize);
+				LPVOID pBuffer = (void*) malloc(dwBufferSize);
 
-				if (pBuffer != (void*)NULL)
+				if (pBuffer != (void*) NULL)
 				{
 					UINT        nInfoSize = 0;
 					UINT        nFixedLength = 0;
 					LPSTR       lpVersion = NULL;
 					VOID*       lpFixedPointer;
 					TRANSARRAY* lpTransArray;
-					TCHAR       strLangProductVersion[MAX_PATH] = { 0 };
+					TCHAR       strLangProductVersion[MAX_PATH] = {0};
 
 					if (GetFileVersionInfo((LPTSTR)langDll,
 						dwReserved,
@@ -127,12 +127,12 @@ void LoadLangDll()
 						pBuffer))
 					{
 						// Query the current language
-						if (VerQueryValue(pBuffer,
+						if (VerQueryValue(	pBuffer,
 							_T("\\VarFileInfo\\Translation"),
 							&lpFixedPointer,
 							&nFixedLength))
 						{
-							lpTransArray = (TRANSARRAY*)lpFixedPointer;
+							lpTransArray = (TRANSARRAY*) lpFixedPointer;
 
 							_stprintf_s(strLangProductVersion, _T("\\StringFileInfo\\%04x%04x\\ProductVersion"),
 								lpTransArray[0].wLanguageID, lpTransArray[0].wCharacterSet);
@@ -194,7 +194,7 @@ void LoadLangDll()
 
 STDMETHODIMP CShellExt::QueryInterface(REFIID riid, LPVOID FAR *ppv)
 {
-	if (ppv == 0)
+	if(ppv == 0)
 		return E_POINTER;
 
 	*ppv = NULL;
@@ -240,11 +240,17 @@ STDMETHODIMP_(ULONG) CShellExt::Release()
 }
 
 namespace EventLog {
-	void writeDebug(std::wstring info) {
+	void writeDebug(std::wstring info) 
+	{
 		if (g_ShellCache.IsDebugLogging()) {
 			EventLog::writeInformation(info);
 		}
 	}
+
+	extern bool isDebugLoggingEnabled()
+	{
+		return g_ShellCache.IsDebugLogging() == TRUE;
+	};
 }
 
 std::wstring getTortoiseSIString(DWORD stringID)
@@ -252,18 +258,4 @@ std::wstring getTortoiseSIString(DWORD stringID)
 	wchar_t buffer[1024];
 	LoadStringEx(g_hResInst, stringID, buffer, _countof(buffer), (WORD)CRegStdDWORD(_T("Software\\TortoiseSI\\LanguageID"), MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT)));
 	return buffer;
-}
-
-std::wstring getFormattedTortoiseSIString(DWORD stringID, ...)
-{
-	wchar_t parameterized_buffer[1024];
-	wchar_t output_buffer[1024];
-	va_list args = NULL;
-
-	va_start(args, stringID);
-	LoadStringEx(g_hResInst, stringID, parameterized_buffer, _countof(parameterized_buffer), (WORD)CRegStdDWORD(_T("Software\\TortoiseSI\\LanguageID"), MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT)));
-	FormatMessageW(FORMAT_MESSAGE_FROM_STRING, parameterized_buffer, 0, 0, output_buffer, 1024, &args);
-	va_end(args);
-
-	return output_buffer;
 }

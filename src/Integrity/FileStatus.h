@@ -39,8 +39,9 @@ enum class FileStatus
 	// errors - note: these are not returned by Integrtiy, but are used
 	//	              by the local code to handle errors talking to Integrity
 	//			      Used by the caching layer to avoid caching error results
-	TimeoutError= 0x10000000l,
-	GenericError= 0x10000000l,
+	TimeoutError	= 0x10000000l,
+
+	ErrorMask = TimeoutError /*| other error etc... */,
 
 	// local stuff (ie things we figure out in the extension)
 	Folder		= 0x00100000l,

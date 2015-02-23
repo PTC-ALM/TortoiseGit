@@ -441,7 +441,8 @@ MKS_API(void)        mksReleaseCommand(mksCommand cmd);
  * allow proper initialization of the internal logger, etc.
  *
  * \param logfile The filename to save the log data to.  If this parameter is
- * NULL, then the log data will not be saved to file.
+ * NULL, then the log data will be sent to mksapi.log in the current
+ * working directory.
  *
  * \return The error code of the function.
  */

@@ -115,6 +115,7 @@
     <ClCompile Include="..\Utils\MiscUI\IconBitmapUtils.cpp" />
     <ClCompile Include="..\Utils\ReaderWriterLock.cpp" />
     <ClCompile Include="RootFolderCache.cpp" />
+    <ClCompile Include="ServerConnections.cpp" />
     <ClCompile Include="StatusCache.cpp" />
     <ClCompile Include="ContextMenu.cpp" />
     <ClCompile Include="PropertyPage.cpp" />
@@ -151,9 +152,11 @@
     <ClInclude Include="..\Utils\MiscUI\IconBitmapUtils.h" />
     <ClInclude Include="..\Utils\ReaderWriterLock.h" />
     <ClInclude Include="..\Utils\ShellUpdater.h" />
+    <ClInclude Include="AbstractCache.h" />
     <ClInclude Include="DebugEventLog.h" />
     <ClInclude Include="MenuInfo.h" />
     <ClInclude Include="RootFolderCache.h" />
+    <ClInclude Include="ServerConnections.h" />
     <ClInclude Include="StatusCache.h" />
     <ClInclude Include="PropertyPage.h" />
     <ClInclude Include="Globals.h" />
