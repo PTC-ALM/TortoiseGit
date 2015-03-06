@@ -1,0 +1,1 @@
+$countryCodes = @{"1028" = "zh_TW"; "2052" = "zh_CN"}

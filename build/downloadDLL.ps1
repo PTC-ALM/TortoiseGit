@@ -6,6 +6,10 @@ if ($Env:Platform -eq "Win32") {
     exit
 }
 
+# dot source so we can access the $countryCodes hash table/dict variable 
+. ./build/countryCodes.ps1
+
+
 $apiUrl = 'https://ci.appveyor.com/api'
 $headers = @{
   "Authorization" = "Bearer $Env:secureToken"
@@ -24,6 +28,7 @@ $downloadLocation = "$root\bin\Release\bin\"
 $project = Invoke-RestMethod -Method Get -Uri "$apiURL/projects/$accountName/$projectSlug/build/$buildVersion" -Headers $headers
 
 # get job id for Win32 job for current build
+# Note this presumes that Win32 was the first job to run
 $jobId = $project.build.jobs[0].jobId
 
 # get artifacts from Win32 job
@@ -53,3 +58,16 @@ Invoke-RestMethod -Method Get -Uri "$apiUrl/buildjobs/$jobId/artifacts/$artifact
      -OutFile $localArtifactPath2 -Headers $headers
 
 Write-host "Copied $artifactFileName2 to $downloadLocation"
+
+foreach ($code in $countryCodes.GetEnumerator()) {
+    $langDLLArtifact = "TortoiseShell$($code.Key).dll"
+    $localLangDLLArtifactPath = "$downloadLocation\$langDLLArtifact"
+
+    Invoke-RestMethod -Method Get -Uri "$apiUrl/buildjobs/$jobId/artifacts/$langDLLArtifact" `
+     -OutFile $localLangDLLArtifactPath -Headers $headers
+
+
+}
+# download TortoiseSI32.dll to download location
+Invoke-RestMethod -Method Get -Uri "$apiUrl/buildjobs/$jobId/artifacts/$artifactFileName1" `
+     -OutFile $localArtifactPath1 -Headers $headers
