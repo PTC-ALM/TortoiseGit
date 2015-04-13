@@ -426,7 +426,7 @@
 				<Publish Event="SpawnDialog" Value="CancelPopup">1</Publish>
 			</Control>
 			<Control Id="AgreementText" Type="ScrollableText" X="5" Y="60" Width="360" Height="160" Sunken="yes" TabSkip="no">
-				<Text SourceFile="include\TGIT_eula.rtf" />
+				<Text SourceFile="include\TSI_eula.rtf" />
 			</Control>
 			<Control Id="BannerBitmap" Type="Bitmap" X="0" Y="0" Width="370" Height="44" TabSkip="no" Text="[BannerBitmap]" />
 			<Control Id="Title" Type="Text" X="155" Y="6" Width="200" Height="15" Transparent="yes" NoPrefix="yes" RightAligned="yes">
