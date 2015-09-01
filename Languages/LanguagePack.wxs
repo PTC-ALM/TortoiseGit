@@ -42,10 +42,12 @@
         <Directory Id='INSTALLDIR' Name='TortoiseSI'>
           <Directory Id='LanguagesFolder' Name='Languages'>
             <Component Id='Main' Guid='b01ca40a-d860-4bfd-be28-6c892fcb9863'>
-              <File Id='PROCDLL' Name='TortoiseShell$(var.COUNTRYID).dll' DiskId='1' Source='..\bin\$(var.ReleasePath)\bin\TortoiseShell$(var.COUNTRYID).dll' Vital='yes'></File>
-
+              <File Id='SHELLDLL' Name='TortoiseShell$(var.COUNTRYID).dll' DiskId='1' Source='..\bin\$(var.ReleasePath)\bin\TortoiseShell$(var.COUNTRYID).dll' Vital='yes'></File>
+              <File Id='PROCDLL' Name='TortoiseProc$(var.COUNTRYID).dll' DiskId='1' Source='..\bin\$(var.ReleasePath)\bin\TortoiseProc$(var.COUNTRYID).dll' Vital='yes'></File>
+              
               <?if $(var.Platform) = "x64" ?>
-                <File Id='PROCDLL32' Name='TortoiseShell32$(var.COUNTRYID).dll' DiskId='1' Source='..\bin\$(var.ReleasePath32)\bin\TortoiseShell$(var.COUNTRYID).dll' Vital='yes'></File>
+                <File Id='SHELLDLL32' Name='TortoiseShell32$(var.COUNTRYID).dll' DiskId='1' Source='..\bin\$(var.ReleasePath32)\bin\TortoiseShell$(var.COUNTRYID).dll' Vital='yes'></File>
+              <File Id='PROCDLL32' Name='TortoiseProc32$(var.COUNTRYID).dll' DiskId='1' Source='..\bin\$(var.ReleasePath32)\bin\TortoiseProc$(var.COUNTRYID).dll' Vital='yes'></File>              
               <?endif ?>
               
             </Component>

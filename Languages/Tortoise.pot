@@ -41,7 +41,7 @@ msgstr ""
 msgid "(Showing %1!d! of %2!d! only)"
 msgstr ""
 
-#. Resource IDs: (1002, 1003, 1021, 1022, 1036, 1089, 1104, 1324, 1333, 1382, 1383, 1384, 1474, 1483, 1484, 1541, 1542, 1551, 1583, 1584, 1664, 1672)
+#. Resource IDs: (690)
 msgid "..."
 msgstr ""
 
@@ -57,7 +57,7 @@ msgstr ""
 msgid "Add to exclude filter"
 msgstr ""
 
-#. Resource IDs: (209, 1279)
+#. Resource IDs: (12)
 msgid "Add..."
 msgstr ""
 
@@ -85,6 +85,10 @@ msgstr ""
 msgid "Check out members into working files in a sandbox"
 msgstr ""
 
+#. Resource IDs: (25)
+msgid "Checkpoint"
+msgstr ""
+
 #. Resource IDs: (13)
 msgid "Commit changes in a change package"
 msgstr ""
@@ -99,6 +103,10 @@ msgstr ""
 
 #. Resource IDs: (24)
 msgid "Create a new Sandbox"
+msgstr ""
+
+#. Resource IDs: (25)
+msgid "Development Path"
 msgstr ""
 
 #. Resource IDs: (24)
@@ -117,15 +125,19 @@ msgstr ""
 msgid "Drop..."
 msgstr ""
 
-#. Resource IDs: (63, 74, 77, 319, 1001)
+#. Resource IDs: (25)
 msgid "File"
+msgstr ""
+
+#. Resource IDs: (25, 1002)
+msgid "Folder"
 msgstr ""
 
 #. Resource IDs: (13)
 msgid "Launch the Working File Changes View"
 msgstr ""
 
-#. Resource IDs: (369,1379)
+#. Resource IDs: (24)
 msgid "Loading..."
 msgstr ""
 
@@ -197,7 +209,11 @@ msgstr ""
 msgid "Point a Sandbox to a different project configuration"
 msgstr ""
 
-#. Resource IDs: (11)
+#. Resource IDs: (25)
+msgid "Project Name"
+msgstr ""
+
+#. Resource IDs: (24)
 msgid "Property"
 msgstr ""
 
@@ -249,6 +265,10 @@ msgstr ""
 msgid "Sandbox Name"
 msgstr ""
 
+#. Resource IDs: (25)
+msgid "Server"
+msgstr ""
+
 #. Resource IDs: (12)
 msgid "Show annotated revision view for selected member"
 msgstr ""
@@ -265,7 +285,7 @@ msgstr ""
 msgid "Show member information view for selected member"
 msgstr ""
 
-#. Resource IDs: (74, 77, 207)
+#. Resource IDs: (25)
 msgid "Status"
 msgstr ""
 
@@ -285,7 +305,7 @@ msgstr ""
 msgid "Unregister Sandbox from Integrity Client"
 msgstr ""
 
-#. Resource IDs: (11, 357)
+#. Resource IDs: (24)
 msgid "Value"
 msgstr ""
 

@@ -12,7 +12,6 @@
 #define IDD_PROMPT                      131
 #define IDD_SVNPROGRESS                 134
 #define IDD_COMMITDLG                   135
-#define IDI_DIFF                        135
 #define IDD_SETTINGSMAIN                143
 #define IDR_ANIMATION                   148
 #define IDR_MOVEANI                     149

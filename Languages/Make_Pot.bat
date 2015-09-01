@@ -1,7 +1,7 @@
 @echo off
 SETLOCAL ENABLEDELAYEDEXPANSION
 
-..\bin\release64\bin\ResText extract ..\bin\release64\bin\TortoiseSI.dll ..\bin\release64\bin\TortoiseShellLang.dll -useheaderfile TortoisePotHeader.txt Tortoise.pot
+..\bin\release64\bin\ResText extract ..\bin\release64\bin\TortoiseShellLang.dll -useheaderfile TortoisePotHeader.txt Tortoise.pot
 
 rem leave the next two lines commented. The msgremove tool changes the
 rem sequence "\r\n" to "r\n" - removing the backslash before the r!!!

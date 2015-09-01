@@ -37,6 +37,7 @@ IDR_DOWNLOAD            AVI                     "download.avi"
 
 // Icon with lowest ID value placed first to ensure application icon
 // remains consistent on all systems.
+IDR_MAINFRAME           ICON                    "TortoiseSI.ico"
 IDI_DRIVES              ICON                    "Drives.ico"
 IDI_SSH                 ICON                    "ssh.ico"
 IDI_PROXY               ICON                    "proxy.ico"
@@ -105,7 +106,6 @@ IDI_FILE                ICON                    "file.ico"
 IDI_CODE                ICON                    "code.ico"
 IDI_SNIPPET             ICON                    "snippet.ico"
 IDI_CERTCHECK           ICON                    "certcheck.ico"
-IDR_MAINFRAME           ICON                    "TortoiseSI.ico"
 
 /////////////////////////////////////////////////////////////////////////////
 //
