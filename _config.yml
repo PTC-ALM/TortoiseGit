@@ -1,8 +1,0 @@
-title: TortoiseSI
-description: Windows Explorer Extension to Operate the SCM capabilities of PTC Integrity
-google_analytics: 
-show_downloads: true
-theme: jekyll-theme-slate
-
-gems:
-  - jekyll-mentions
