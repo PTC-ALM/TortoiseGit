@@ -3,12 +3,12 @@
 <head>
   <meta charset='utf-8'>
   <meta name="description" content="TortoiseSI for PTC&reg; Integrity&trade; User Guide">
-  <title>TortoiseSI for PTC&reg; Integrity&trade; User Guide</title>
+  <title>TortoiseSI for Integrity&trade; Lifecycle Manager User Guide</title>
   <link rel="stylesheet" type="text/css" href="css/tortoisesi_doc.css">
 </head>
 
 <body>
-<h1>TortoiseSI 1.0.230.0 User Guide for PTC&reg; Integrity&trade;</h1>
+<h1>TortoiseSI 1.0.230.0 User Guide for Integrity&trade; Lifecycle Manager</h1>
 <h2>Contents</h2>
 <ul style="list-style: none; margin:0; padding:0">
   <li><a href="#section1">Overview of TortoiseSI</a>
@@ -26,22 +26,22 @@
 	  <li><a href="#section2_5">Verifying a Successful Installation</a></li>
 	  <li><a href="#section2_6">Troubleshooting Tips</a>
 	    <ul style="list-style: none;">
-		  <li><a href="#section2_6_1">Connecting to Integrity Server</a></li>
+		  <li><a href="#section2_6_1">Connecting to Integrity Lifecycle Manager Server</a></li>
 		  <li><a href="#section2_6_2">No Icon Overlays</a></li>
 		  <li><a href="#section2_6_3">Unsupported File System Locations</a></li>
-		  <li><a href="#section2_6_4">Multiple Integrity Clients Installed</a></li>
-          <li><a href="#section2_6_5">No Integrity Client Installed</a></li>
+		  <li><a href="#section2_6_4">Multiple Integrity Lifecycle Manager Clients Installed</a></li>
+          <li><a href="#section2_6_5">No Integrity Lifecycle Manager Client Installed</a></li>
 		</ul>
 	  </li>
 	</ul>
   </li>
-  <li><a href="#section3">Managing Integrity Sandboxes with TortoiseSI</a>
+  <li><a href="#section3">Managing Integrity Lifecycle Manager Sandboxes with TortoiseSI</a>
     <ul style="list-style: none;">
 	  <li><a href="#section3_1">Sandboxes Overview</a></li>
 	  <li><a href="#section3_2">TortoiseSI Sandbox Operations</a></li>
     </ul>
   </li>
-  <li><a href="#section4">Working with Files as Integrity Members</a>
+  <li><a href="#section4">Working with Files as Integrity Lifecycle Manager Members</a>
     <ul style="list-style: none;">
 	  <li><a href="#section4_1">Members Overview</a></li>
 	  <li><a href="#section4_2">TortoiseSI Member Operations</a></li>
@@ -61,15 +61,15 @@
 </ul><br /><br />
 
 <h1 id="section1">Overview of TortoiseSI</h1>
-<p>TortoiseSI is a free, open-source Microsoft&reg; Windows&reg; shell extension client for PTC Integrity. </p>
-<p>PTC Integrity is a cross-platform, enterprise-class software configuration management and versioning solution. </p>
-<p>TortoiseSI  exposes PTC Integrity views, source commands, and version-controlled member actions on Windows files and folders through Windows Explorer. </p>
+<p>TortoiseSI is a free, open-source Microsoft&reg; Windows&reg; shell extension client for Integrity Lifecycle Manager. </p>
+<p>Integrity Lifecycle Manager is a cross-platform, enterprise-class software configuration management and versioning solution. </p>
+<p>TortoiseSI exposes Integrity Lifecycle Manager views, source commands, and version-controlled member actions on Windows files and folders through Windows Explorer. </p>
 
 <h2 id="section1_1">What You Can Do With TortoiseSI</h2>
-<p>TortoiseSI offers you a light-weight open-source interface to perform various Integrity operations, access Integrity data views, and commit changes to the repository. TortoiseSI displays <a href="#section6_2">icon overlays</a> in Windows Explorer to indicate working file status on the file system.</p>
+<p>TortoiseSI offers you a light-weight open-source interface to perform various Integrity Lifecycle Manager operations, access Integrity Lifecycle Manager data views, and commit changes to the repository. TortoiseSI displays <a href="#section6_2">icon overlays</a> in Windows Explorer to indicate working file status on the file system.</p>
 
 <h2 id="section1_2">Who is this Guide For?</h2>
-<p>This guide is intended for anyone interested in accessing Integrity views and performing Integrity operations directly from the Windows Explorer interface.</p>
+<p>This guide is intended for anyone interested in accessing Integrity Lifecycle Manager views and performing Integrity Lifecycle Manager operations directly from the Windows Explorer interface.</p>
 <p>Since TortoiseSI is a Windows shell extension, this documentation assumes that the user is familiar with and proficient at using Microsoft Windows Explorer.</p>
 <p>Developers who are interested in getting involved with the TortoiseSI project can refer to the <a href="https://github.com/PTC-ALM/TortoiseSI/wiki">GitHub TortoiseSI wiki</a>.</p>
 
@@ -82,11 +82,11 @@
 <h1 id="section2">Installing and Configuring TortoiseSI</h1>
 <h2 id="section2_1">TortoiseSI Installation Prerequisites</h2>
 <ul>
-  <li>PTC Integrity Client version 10.7 or later is required for TortoiseSI. Other Integrity client versions are not supported. Once TortoiseSI is installed, the  client starts automatically when Windows starts up.</li>
+  <li>PTC Integrity Client version 10.7 or later is required for TortoiseSI. Other Integrity Lifecycle Manager client versions are not supported. Once TortoiseSI is installed, the client starts automatically when Windows starts up.</li>
   <ul>
-  <li>HotFix HF-S140000000-003 is required for Integrity Client 10.7 customers using TortoiseSI. This HotFix forces Integrity's Working File Changes view to refresh after a non-transactional change package is submitted. For more information, contact PTC - Integrity Support through the <a href="http://www.ptc.com/support/integrity.htm">Integrity Support Center</a>.</li>
+  <li>HotFix HF-S140000000-003 is required for Integrity Client 10.7 customers using TortoiseSI. This HotFix forces Integrity's Working File Changes view to refresh after a non-transactional change package is submitted. For more information, contact PTC Technical Support through the <a href="http://www.ptc.com/support/integrity.htm">PTC Integrity eSupport portal</a>.</li>
   </ul>
-  <li>TortoiseSI supports the same Windows platforms that are supported by  the Integrity client. For details on supported platforms, refer to the <a href="http://www.ptc.com/partners/hardware/current/support.htm">PTC Integrity Product Platforms</a> documentation available through the <a href="http://www.ptc.com/support/integrity.htm">Integrity Support Center</a>.</li>
+  <li>TortoiseSI supports the same Windows platforms that are supported by the Integrity Lifecycle Manager client. For details on supported platforms, refer to the <a href="http://www.ptc.com/partners/hardware/current/support.htm">Integrity&trade; Lifecycle Manager Product Platforms</a> documentation available through the <a href="http://www.ptc.com/support/integrity.htm">PTC Integrity eSupport portal</a>.</li>
   <li>TortoiseSI only supports files located on fixed local drives. Optical drives, network drives, and mass storage devices are not supported.</li>
 </ul>
 <p>If you encounter any problems while installing TortoiseSI, or following a TortoiseSI install, please refer to the <a href="#section2_6">Troubleshooting Tips</a> section in this document first before <a href="#section7">contacting us</a>.</p>
@@ -100,23 +100,23 @@
   <li>Run the downloaded TortoiseSI MSI installer and proceed through the Setup Wizard.</li>
 </ol>
 <h2 id="section2_4">Updating TortoiseSI</h2>
-<p>You can install a newer  version of TortoiseSI directly on top of an existing installation. You do not need to uninstall your current TortoiseSI application first.</p>
+<p>You can install a newer version of TortoiseSI directly on top of an existing installation. You do not need to uninstall your current TortoiseSI application first.</p>
 
 <h2 id="section2_5">Verifying a Successful Installation</h2>
-<p>Once TortoiseSI is installed on the system, you can verify that the install was successful by creating a sandbox in Integrity.</p>
+<p>Once TortoiseSI is installed on the system, you can verify that the install was successful by creating a sandbox in Integrity Lifecycle Manager.</p>
 <Ol>
   <li>Using Windows Explorer, navigate to a folder on the file system.</li>
   <li>Right-click on the folder and select the <b>TortoiseSI &gt; Create Sandbox</b> option.<br /><br />
     <img src="images/TortoiseSIRightClickOption.png" alt="TortoiseSI Right-Click Option" /></li>
-  <li>When prompted, connect to an Integrity server with valid credentials.</li>
-  <li>When prompted, create a sandbox using Integrity's Create Sandbox Wizard. For details on creating sandboxes in Integrity, see the <em>PTC Integrity User Guide</em>, <em>Integrity Help Center</em>, or <em>Integrity CLI man pages.</em></li>
+  <li>When prompted, connect to an Integrity Lifecycle Manager server with valid credentials.</li>
+  <li>When prompted, create a sandbox using Integrity Lifecycle Manager's Create Sandbox Wizard. For details on creating sandboxes in Integrity Lifecycle Manager, see the <em>PTC Integrity User Guide</em>, <em>Integrity Lifecycle Manager Help Center</em>, or <em>Integrity Lifecycle Manager CLI man pages.</em></li>
 </Ol>
 
 <h2 id="section2_6">Troubleshooting Tips</h2>
-<h3 id="section2_6_1">Connecting to Integrity Server</h3>
-<p>TortoiseSI automatically connects to an Integrity server. The specific server is based on your Integrity client preferences. </p>
-<p>If you are not prompted to connect to  Integrity, verify that the  client is running, and that the client application can communicate with an Integrity server.</p>
-<p>If TortoiseSI loses its connection to the  server, TortoiseSI will work silently in offline mode. To force a connection to the  server, perform an operation that requires a server connection, such as viewing a sandbox through  Integrity's Sandbox view.</p>
+<h3 id="section2_6_1">Connecting to Integrity Lifecycle Manager Server</h3>
+<p>TortoiseSI automatically connects to an Integrity Lifecycle Manager server. The specific server is based on your Integrity Lifecycle Manager client preferences. </p>
+<p>If you are not prompted to connect to Integrity Lifecycle Manager, verify that the client is running, and that the client application can communicate with an Integrity Lifecycle Manager server.</p>
+<p>If TortoiseSI loses its connection to the server, TortoiseSI will work silently in offline mode. To force a connection to the server, perform an operation that requires a server connection, such as viewing a sandbox through Integrity Lifecycle Manager's Sandbox view.</p>
 
 <h3 id="section2_6_2">No Icon Overlays</h3>
 <p>If you are unable to see the TortoiseSI <a href="#section6_2">icon overlays</a> on files and folders in Windows Explorer, restart Windows Explorer or reboot the machine.</p>
@@ -125,35 +125,35 @@
 <p>TortoiseSI only supports files located on fixed local drives.</p>
 <p>File locations that are not supported by TortoiseSI include optical drives, network drives, and mass storage devices. If a file location is not supported, the <a href="#section1_3">TortoiseSI context menu</a> is not visible in Windows Explorer.</p>
 
-<h3 id="section2_6_4">Multiple Integrity Clients Installed</h3>
-<p>If you have more than one Integrity client installed on the machine, TortoiseSI uses the first  client on the PATH environment variable. For more information on debugging non-standard configurations, such as running multiple  clients, see the <a href="https://github.com/PTC-ALM/TortoiseSI/wiki">GitHub TortoiseSI wiki</a>.</p>
+<h3 id="section2_6_4">Multiple Integrity Lifecycle Manager Clients Installed</h3>
+<p>If you have more than one Integrity Lifecycle Manager client installed on the machine, TortoiseSI uses the first client on the PATH environment variable. For more information on debugging non-standard configurations, such as running multiple clients, see the <a href="https://github.com/PTC-ALM/TortoiseSI/wiki">GitHub TortoiseSI wiki</a>.</p>
 
-<h3 id="section2_6_5">No Integrity Client Installed</h3>
+<h3 id="section2_6_5">No Integrity Lifecycle Manager Client Installed</h3>
 <p>If TortoiseSI cannot find a client in the PATH environment variable, the TortoiseSI context menu is not visible in Windows Explorer.</p>
-<p>If the Integrity client is uninstalled after TortoiseSI has been installed, the TortoiseSI context menu is visible, but a client communication error displays when you try to perform a TortoiseSI operation. Restart the Explorer.exe process or reboot the machine to hide the TortoiseSI context menu in Windows Explorer. </p>
+<p>If the Integrity Lifecycle Manager client is uninstalled after TortoiseSI has been installed, the TortoiseSI context menu is visible, but a client communication error displays when you try to perform a TortoiseSI operation. Restart the Explorer.exe process or reboot the machine to hide the TortoiseSI context menu in Windows Explorer. </p>
 
-<h1 id="section3">Managing Integrity Sandboxes with TortoiseSI</h1>
+<h1 id="section3">Managing Integrity Lifecycle Manager Sandboxes with TortoiseSI</h1>
 <h2 id="section3_1">Sandbox Overview</h2>
-<p>Using TortoiseSI, you can perform a number of Integrity sandbox operations. </p>
-<p>An Integrity sandbox is a local pointer to an Integrity project residing on the Integrity server. </p>
-<p>On the file system, a sandbox  functions as a mirror image of a version-controlled Integrity SCM (software configuration management) project. Each Integrity sandbox is actually a collection of pointers to files in the master project. Integrity sandboxes allow you to work locally in your own workspace, without interfering with the work of others.</p>
-<p><b>Note:</b> Where applicable, TortoiseSI commands launch additional Integrity commands, dialogs, and workflows. Integrity operations follow configured Integrity client preferences.</p>
+<p>Using TortoiseSI, you can perform a number of Integrity Lifecycle Manager sandbox operations. </p>
+<p>An Integrity Lifecycle Manager sandbox is a local pointer to an Integrity Lifecycle Manager project residing on the Integrity Lifecycle Manager server. </p>
+<p>On the file system, a sandbox functions as a mirror image of a version-controlled Integrity Lifecycle Manager SCM (software configuration management) project. Each Integrity Lifecycle Manager sandbox is actually a collection of pointers to files in the master project. Integrity Lifecycle Manager sandboxes allow you to work locally in your own workspace, without interfering with the work of others.</p>
+<p><b>Note:</b> Where applicable, TortoiseSI commands launch additional Integrity Lifecycle Manager commands, dialogs, and workflows. Integrity Lifecycle Manager operations follow configured Integrity Lifecycle Manager client preferences.</p>
 
 <h2 id="section3_2">TortoiseSI Sandbox Operations</h2>
-<p>The following Integrity sandbox operations are available using TortoiseSI. The equivalent Integrity command is listed for each supported TortoiseSI sandbox operation.</p>
-<p>For information on Integrity sandbox operations, Integrity commands, or Integrity client preferences, see the <em>PTC Integrity User Guide</em>, <em>Integrity Help Center</em>, or <em>Integrity CLI man pages</em>.</p>
+<p>The following Integrity Lifecycle Manager sandbox operations are available using TortoiseSI. The equivalent Integrity Lifecycle Manager command is listed for each supported TortoiseSI sandbox operation.</p>
+<p>For information on Integrity Lifecycle Manager sandbox operations, Integrity Lifecycle Manager commands, or Integrity Lifecycle Manager client preferences, see the <em>PTC Integrity User Guide</em>, <em>Integrity Lifecycle Manager Help Center</em>, or <em>Integrity Lifecycle Manager CLI man pages</em>.</p>
 <table>
   <tr>
     <th height="67">Sandbox Operation</th>
-    <th>Integrity Operation &amp; Command</th>
+    <th>Integrity Lifecycle Manager Operation &amp; Command</th>
     <th>TortoiseSI Command</th>
   </tr>
   <tr>
     <td><p><b>Create a Sandbox</b></p></td>
     <td>
-	  <p>Create a private version-controlled project workspace on the file system that mirrors the content of a project on the Integrity server.</p>
-      <p>Integrity command: <em>si createsandbox</em></p>
-      <p><b>Note:</b> You cannot create sandboxes in other sandboxes (co-located sandboxes) using TortoiseSI. If you  previously created co-located sandboxes manually, TortoiseSI may not function as expected in the associated folders on the file system.</p>
+	  <p>Create a private version-controlled project workspace on the file system that mirrors the content of a project on the Integrity Lifecycle Manager server.</p>
+      <p>Integrity Lifecycle Manager command: <em>si createsandbox</em></p>
+      <p><b>Note:</b> You cannot create sandboxes in other sandboxes (co-located sandboxes) using TortoiseSI. If you previously created co-located sandboxes manually, TortoiseSI may not function as expected in the associated folders on the file system.</p>
 	</td>
     <td><p><b>TortoiseSI &gt; Create Sandbox</b></p></td>
   </tr>
@@ -163,12 +163,12 @@
 	  <p>When the members you are resynchronizing have changes that were made in the context of a change package, you can also resynchronize members in a sandbox by change package.</p>
       <p>Resynchronizing by change package finds all members that were modified in an associated change package and all change packages that may be associated with the related members. However, only the change packages associated with the specific members you selected to resynchronize are processed.</p>
       <p><b>Caution</b>: Resynchronizing can overwrite local member data and can result in data loss, even when the members are <a href="#lock">locked</a>. Also, when members are dropped from a project, resynchronizing can delete those members from the file system.</p>
-      <p>Integrity command:<em> si resync</em></p>
+      <p>Integrity Lifecycle Manager command:<em> si resync</em></p>
 	</td>
     <td>
 	  <p><b>TortoiseSI &gt; Resynchronize by Change Package</b></p>
       <ul>
-        <li>Select a  folder in a project: All files and subfolders within the version-controlled folder are resynchronized.</li>
+        <li>Select a folder in a project: All files and subfolders within the version-controlled folder are resynchronized.</li>
         <li>Select files in a project: Selected files are resynchronized.</li>
       </ul>
 	</td>
@@ -176,9 +176,9 @@
    <tr>
     <td><p id="resync_by_cp"><b>Resynchronize a Folder</b></p></td>
     <td>
-	  <p>Resynchronize  the contents of a sandbox in a project.      </p>
+	  <p>Resynchronize the contents of a sandbox in a project.</p>
 	  <p><b>Caution</b>: Resynchronizing can overwrite local member data and can result in data loss, even when the members are <a href="#lock">locked</a>. Also, when members are dropped from a project, resynchronizing can delete those members from the file system.</p>
-      <p>Integrity command:<em> si resync</em></p>
+      <p>Integrity Lifecycle Manager command:<em> si resync</em></p>
 	</td>
     <td>
 	  <p><b>TortoiseSI &gt; Resynchronize</b></p>
@@ -189,32 +189,47 @@
   </tr><tr>
     <td><p><b>Drop a Sandbox</b></p></td>
     <td>
-	  <p>Disconnect a sandbox from a project.      </p>
-	  <p><b>Tip:</b> During the drop sandbox operation, you can choose to leave the folder and its contents on the file system. You can continue working on those files; however, they will no longer be associated with Integrity.</p>
-      <p>Integrity command: <em>si dropsandbox</em></p>
+	  <p>Disconnect a sandbox from a project.</p>
+	  <p><b>Tip:</b> During the drop sandbox operation, you can choose to leave the folder and its contents on the file system. You can continue working on those files; however, they will no longer be associated with Integrity Lifecycle Manager.</p>
+      <p>Integrity Lifecycle Manager command: <em>si dropsandbox</em></p>
 	</td>
     <td>
 	  <p><b>TortoiseSI &gt; Drop Sandbox</b></p>
+      <p>Select a folder in a project.</p>
+	</td>
+  </tr><tr>
+    <td><p><b>Drop a Subproject.</b></p></td>
+    <td>
+	  <p>Removes a subproject from a project.</p>
+      <p><b>Notes:</b></p>
+      <ul>
+      <li>After you remove a subproject from a project, it is no longer listed as part of the Sandbox or master project, but the subproject&rsquo;s history remains in the project record, in case you need to recreate an earlier version of the project.</li>
+      <li>When you remove a subproject, you also remove all members within that subproject.</li>
+      </ul>
+      <p>Integrity Lifecycle Manager command: <em>si dropproject</em></p>
+	</td>
+    <td>
+	  <p><b>TortoiseSI &gt; Drop Sub-Project</b></p>
       <p>Select a folder in a project.</p>
 	</td>
   </tr>
   <tr>
     <td><p><b>Retarget a Sandbox</b></p></td>
     <td>
-	  <p>Retarget a selected sandbox to change the Integrity project configuration that the sandbox points to. </p>
+	  <p>Retarget a selected sandbox to change the Integrity Lifecycle Manager project configuration that the sandbox points to. </p>
 	  <p>For example, you can retarget the sandbox to point to a different variant project or a different checkpoint revision.</p>
-      <p>Integrity command: <em>si retargetsandbox</em></p>
-      <p><b>Note:</b> The Retarget Sandbox operation does not change the project or server for a   sandbox, nor does it change the location of a sandbox in Integrity.</p>
+      <p>Integrity Lifecycle Manager command: <em>si retargetsandbox</em></p>
+      <p><b>Note:</b> The Retarget Sandbox operation does not change the project or server for a sandbox, nor does it change the location of a sandbox in Integrity Lifecycle Manager.</p>
 	</td>
     <td>
 	  <p><b>TortoiseSI &gt; Retarget Sandbox</b></p>
-      <p>Select a  folder in a project.</p>
+      <p>Select a folder in a project.</p>
 	</td>
   </tr>
   <tr>
     <td><p><b>Submit Changes to the Repository</b></p></td>
     <td>
-	  <p>Review a summary of all changes made on disk, and then submit those changes to the repository using  Integrity&rsquo;s Working File Changes view.</p>
+	  <p>Review a summary of all changes made on disk, and then submit those changes to the repository using Integrity Lifecycle Manager&rsquo;s Working File Changes view.</p>
       <p>See the section <a href="#section5">Committing Changes to the Repository</a> for details.</p>
 	</td>
     <td>
@@ -224,18 +239,18 @@
   </tr>
 </table>
 
-<h1 id="section4">Working with Files as Integrity Members</h1>
+<h1 id="section4">Working with Files as Integrity Lifecycle Manager Members</h1>
 <h2 id="section4_1">Members Overview</h2>
-<p>With TortoiseSI, you can perform a number of Integrity member operations  for Integrity version-controlled projects. Member operations are applied to the version-controlled project in Integrity after the related change package is submitted.</p>
-<p><b>Note:</b> Where applicable, TortoiseSI commands launch additional Integrity commands, dialogs, and workflows. Integrity operations follow configured Integrity client preferences.</p>
+<p>With TortoiseSI, you can perform a number of Integrity Lifecycle Manager member operations for Integrity Lifecycle Manager version-controlled projects. Member operations are applied to the version-controlled project in Integrity Lifecycle Manager after the related change package is submitted.</p>
+<p><b>Note:</b> Where applicable, TortoiseSI commands launch additional Integrity Lifecycle Manager commands, dialogs, and workflows. Integrity Lifecycle Manager operations follow configured Integrity Lifecycle Manager client preferences.</p>
 
 <h2 id="section4_2">TortoiseSI Member Operations</h2>
-<p>The following member operations are available using TortoiseSI. The equivalent Integrity command is listed for each supported TortoiseSI member operation.</p>
-<p>For information on Integrity member operations, Integrity commands, or Integrity client preferences, see the <em>PTC Integrity User Guide</em>, <em>Integrity Help Center</em>, or <em>Integrity CLI man pages.</em></p>
+<p>The following member operations are available using TortoiseSI. The equivalent Integrity Lifecycle Manager command is listed for each supported TortoiseSI member operation.</p>
+<p>For information on Integrity Lifecycle Manager member operations, Integrity Lifecycle Manager commands, or Integrity Lifecycle Manager client preferences, see the <em>PTC Integrity User Guide</em>, <em>Integrity Lifecycle Manager Help Center</em>, or <em>Integrity Lifecycle Manager CLI man pages.</em></p>
 <table>
   <tr>
     <th>Member Operation</th>
-    <th>Integrity Operation &amp; Command</th>
+    <th>Integrity Lifecycle Manager Operation &amp; Command</th>
     <th>TortoiseSI Command</th>
   </tr>
   <tr>
@@ -243,7 +258,7 @@
     <td>
 	  <p>Add a member or multiple members to a project.</p>
       <p>Once you add members to a project, you can <a href="#check_out">check out</a> the members for editing, and then <a href="#check_in">check in</a> the members to preserve your changes.</p>
-      <p>Integrity command: <em>si add</em></p>
+      <p>Integrity Lifecycle Manager command: <em>si add</em></p>
 	</td>
     <td>
 	  <p><b>TortoiseSI &gt; Add </b></p>
@@ -253,10 +268,10 @@
   <tr>
     <td><p id="drop"><b>Drop</b></p></td>
     <td>
-	  <p>Remove a member or multiple members from  a project.</p>
+	  <p>Remove a member or multiple members from a project.</p>
       <p>After dropping members, the member&rsquo;s history remains in the project in case you need to re-create a version of the project later.</p>
       <p><b>Tip:</b> During the drop member operation, you can choose not to delete the member from the file system. That member remains visible as a former member.</p>
-      <p>Integrity command: <em>si drop</em></p>
+      <p>Integrity Lifecycle Manager command: <em>si drop</em></p>
 	</td>
     <td>
 	  <p><b>TortoiseSI &gt; Drop</b></p>
@@ -267,8 +282,8 @@
     <td><p id="lock"><b>Lock</b></p></td>
     <td>
 	  <p>Lock a member or multiple members in a project to prevent other users from <a href="#check_in">checking in</a> changes to the same revision you are working on.</p>
-      <p>Typically, members are locked when you <a href="#check_out">check out</a> members to a sandbox. However you may have made changes to a working member  that you did not check out. You can set a lock on the working member without overriding your changes.</p>
-      <p>Integrity command: <em>si lock</em></p>
+      <p>Typically, members are locked when you <a href="#check_out">check out</a> members to a sandbox. However you may have made changes to a working member that you did not check out. You can set a lock on the working member without overriding your changes.</p>
+      <p>Integrity Lifecycle Manager command: <em>si lock</em></p>
 	</td>
     <td>
 	  <p><b>TortoiseSI &gt; Lock</b></p>
@@ -277,9 +292,9 @@
   <tr>
     <td><p id="resync_by_cp"><b>Resynchronize a File</b></p></td>
     <td>
-	  <p>Resynchronize  the contents of a file</p>
+	  <p>Resynchronize the contents of a file</p>
 	  <p><b>Caution</b>: Resynchronizing can overwrite local member data and can result in data loss, even when the members are <a href="#lock">locked</a>. Also, when members are dropped from a project, resynchronizing can delete those members from the file system.</p>
-      <p>Integrity command:<em> si resync</em></p>
+      <p>Integrity Lifecycle Manager command:<em> si resync</em></p>
 	</td>
     <td>
 	  <p><b>TortoiseSI &gt; Resynchronize</b></p>
@@ -303,8 +318,8 @@
     <td><p id="check_in"><b>Check In</b></p></td>
     <td>
 	  <p>Check in a member or multiple members from a sandbox to preserve your changes.</p>
-      <p>Checking in a member creates a new revision of the member (or creates a new branch) in Integrity and adds the revision to the member history.</p>
-      <p>Integrity command: <em>si ci</em></p>
+      <p>Checking in a member creates a new revision of the member (or creates a new branch) in Integrity Lifecycle Manager and adds the revision to the member history.</p>
+      <p>Integrity Lifecycle Manager command: <em>si ci</em></p>
 	</td>
     <td>
 	  <p><b>TortoiseSI &gt; Check In</b></p>
@@ -314,10 +329,10 @@
   <tr>
     <td><p id="check_out"><b>Check Out</b></p></td>
     <td>
-	  <p>Check out a working revision of a member or multiple members from a version-controlled Integrity project that you want to work on in a sandbox.</p>
+	  <p>Check out a working revision of a member or multiple members from a version-controlled Integrity Lifecycle Manager project that you want to work on in a sandbox.</p>
       <p>When you check out a revision, the revision is copied to your local sandbox where you can view or modify its contents.</p>
-      <p>By default, when you check out a revision, a <a href="#lock">lock</a> is placed on the member in Integrity, though this is configurable in the Integrity client.</p>
-      <p>Integrity command: <em>si co</em></p>
+      <p>By default, when you check out a revision, a <a href="#lock">lock</a> is placed on the member in Integrity Lifecycle Manager, though this is configurable in the Integrity Lifecycle Manager client.</p>
+      <p>Integrity Lifecycle Manager command: <em>si co</em></p>
 	</td>
     <td>
 	  <p><b>TortoiseSI &gt; Check Out</b></p>
@@ -328,8 +343,8 @@
     <td><p><b>Revert</b></p></td>
     <td>
 	  <p>Revert a member or multiple members to discard your changes in the sandbox. </p>
-	  <p>When you revert members, your local working file is updated to match the working revision from the version-controlled Integrity project.</p>
-      <p>Integrity command: <em>si revert</em></p>
+	  <p>When you revert members, your local working file is updated to match the working revision from the version-controlled Integrity Lifecycle Manager project.</p>
+      <p>Integrity Lifecycle Manager command: <em>si revert</em></p>
 	</td>
     <td><p><b>TortoiseSI &gt; Revert</b></p>
       <p>Select a file or multiple files in a project.</p>
@@ -339,7 +354,7 @@
     <td><p id="move"><b>Move</b></p></td>
     <td>
 	  <p>Move a member or multiple members between sandboxes.</p>
-      <p>Integrity command: <em>si move</em></p>
+      <p>Integrity Lifecycle Manager command: <em>si move</em></p>
       <p><b>Notes:</b> </p>
       <ul>
       <li>TortoiseSI moves the files as a single move member operation. </li>
@@ -355,8 +370,8 @@
     <td><p id="rename"><b>Rename</b></p></td>
     <td>
 	  <p>Rename a member in your sandbox.</p>
-      <p>Integrity command: <em>si rename</em></p>
-    <p><b>Note: </b>Renamed member status information, which  is available via <a href="#section6_3">TortoiseSI File Properties</a>, is visible only for deferred operations.</p></td>
+      <p>Integrity Lifecycle Manager command: <em>si rename</em></p>
+    <p><b>Note: </b>Renamed member status information, which is available via <a href="#section6_3">TortoiseSI File Properties</a>, is visible only for deferred operations.</p></td>
     <td>
 	  <p><b>TortoiseSI &gt; Rename</b></p>
       <p>Select a file in a project. Single file selection only.</p>
@@ -365,9 +380,9 @@
    <tr>
     <td><p id="rename"><b>Merge Conflicts</b></p></td>
     <td>
-	  <p>Merge conflicting changes into the member  revision, and create a new revision with the resulting contents. The merge result overwrites your working member on the file system.</p>
+	  <p>Merge conflicting changes into the member revision, and create a new revision with the resulting contents. The merge result overwrites your working member on the file system.</p>
       <p>The merge conflicts option is only available when a member conflict is present.</p>
-      <p>Integrity command: <em>si merge</em></p>
+      <p>Integrity Lifecycle Manager command: <em>si merge</em></p>
     </td>
     <td>
 	  <p><b>TortoiseSI &gt; Merge Conflicts</b></p>
@@ -378,37 +393,37 @@
 </table>
 
 <h1 id="section5">Committing Changes to the Repository </h1>
-<p>You can use  Integrity&rsquo;s Working File Changes view  to compare an Integrity version-controlled project against the file system.  The Working File Changes view lists all of the files, folders, and subfolders that have been added, updated, or deleted.</p>
-<p>When you are ready to commit changes to the repository, right-click on an Integrity sandbox and select <b>TortoiseSI &gt; View Working File Changes</b> to access the  Working File Changes view in the  client.</p>
+<p>You can use Integrity Lifecycle Manager&rsquo;s Working File Changes view to compare an Integrity Lifecycle Manager version-controlled project against the file system. The Working File Changes view lists all of the files, folders, and subfolders that have been added, updated, or deleted.</p>
+<p>When you are ready to commit changes to the repository, right-click on an Integrity Lifecycle Manager sandbox and select <b>TortoiseSI &gt; View Working File Changes</b> to access the Working File Changes view in the client.</p>
 <p>You can also use the Working File Changes view to:</p>
 <ul>
-<li>Move selected files to Integrity change packages.</li> 
-<li>Submit selected Integrity change packages to commit those changes to the repository.</li> 
+<li>Move selected files to Integrity Lifecycle Manager change packages.</li> 
+<li>Submit selected Integrity Lifecycle Manager change packages to commit those changes to the repository.</li> 
 </ul>
 
-<p>For more information on Integrity change packages and the Working File Changes view, see the <em>PTC Integrity User Guide</em> or the <em>Integrity Help Center</em>.</p>
+<p>For more information on Integrity Lifecycle Manager change packages and the Working File Changes view, see the <em>PTC Integrity User Guide</em> or the <em>Integrity Lifecycle Manager Help Center</em>.</p>
 <p><b>Notes:</b> </p>
 <ul>
   <li>HotFix HF-S140000000-003 is required for Integrity Client 10.7 customers using TortoiseSI. This HotFix forces the Working File Changes view to refresh after a non-transactional change package is submitted.</li>
-  <li>HotFix  HF-S140000000-001 is available for Integrity Client 10.7. This HotFix reduces the number of user prompts that are displayed when moving multiple entries to change packages using the Working File Changes view.</li>
-  <li>Both HotFixes (HF-S140000000-001 and HF-S140000000-003) are included in Integrity Client 10.8. For more information, contact PTC - Integrity Support through the <a href="http://www.ptc.com/support/integrity.htm">Integrity Support Center</a>.</li>
+  <li>HotFix HF-S140000000-001 is available for Integrity Client 10.7 client. This HotFix reduces the number of user prompts that are displayed when moving multiple entries to change packages using the Working File Changes view.</li>
+  <li>Both HotFixes (HF-S140000000-001 and HF-S140000000-003) are included in Integrity Client 10.8. For more information, contact PTC Technical Support through the <a href="http://www.ptc.com/support/integrity.htm">PTC Integrity eSupport portal</a>.</li>
 </ul>
 
 <h1 id="section6">Getting More Out of TortoiseSI</h1>
 <h2 id="section6_1">TortoiseSI View Operations</h2>
-<p>With TortoiseSI, you can perform a number of Integrity view operations on files in your sandbox for Integrity version-controlled projects.</p>
-<p>The following view operations are available using TortoiseSI. The equivalent Integrity command is listed for each supported TortoiseSI view operation.</p>
-<p>For information on Integrity view operations or Integrity commands, see the <em>PTC Integrity User Guide</em>, <em>Integrity Help Center</em>, or <em>Integrity CLI man pages.</em></p>
+<p>With TortoiseSI, you can perform a number of Integrity Lifecycle Manager view operations on files in your sandbox for Integrity Lifecycle Manager version-controlled projects.</p>
+<p>The following view operations are available using TortoiseSI. The equivalent Integrity Lifecycle Manager command is listed for each supported TortoiseSI view operation.</p>
+<p>For information on Integrity Lifecycle Manager view operations or Integrity Lifecycle Manager commands, see the <em>PTC Integrity User Guide</em>, <em>Integrity Lifecycle Manager Help Center</em>, or <em>Integrity Lifecycle Manager CLI man pages.</em></p>
 <table>
   <tr>
     <th width="17%">View Operation</th>
-    <th width="58%">Integrity Operation &amp; Command</th>
+    <th width="58%">Integrity Lifecycle Manager Operation &amp; Command</th>
     <th width="25%">TortoiseSI Command</th>
   </tr>
   <tr><td><p><b>View Member Differences</b></p></td>
     <td>
 	  <p>Compare a working member in a sandbox to the member revision in the repository to review the differences between the two revisions.</p>
-      <p>Integrity command: <em>si diff</em></p>
+      <p>Integrity Lifecycle Manager command: <em>si diff</em></p>
 	</td>
     <td>
 	  <p><b>TortoiseSI &gt; Member Differences</b></p>
@@ -419,10 +434,10 @@
     <td><p><b>View Member History</b></p></td>
     <td>
 	  <p>Review detailed information about each revision and all the changes made to a member since the member was put under version control.</p>
-      <p>Integrity command: <em>si viewhistory</em></p>
+      <p>Integrity Lifecycle Manager command: <em>si viewhistory</em></p>
 	</td>
     <td>
-	  <p><b>TortoiseSI &gt; Member  History</b></p>
+	  <p><b>TortoiseSI &gt; Member History</b></p>
       <p>Select a file in a project. Single file selection only.</p>
 	</td>
   </tr>
@@ -432,7 +447,7 @@
 	  <p>Instead of reviewing revision details individually, you can review  revision details for all changes to a specific file in an annotated view of the file contents. </p>
 	  <p>For example, you can identify which revision introduced a particular line of code.</p>
       <p><b>Note:</b> Annotated details include only added or changed content per revision. Deleted content is not displayed.</p>
-      <p>Integrity command: <em>si annotate</em></p>
+      <p>Integrity Lifecycle Manager command: <em>si annotate</em></p>
 	</td>
     <td>
 	  <p><b>TortoiseSI &gt; Annotated Revision</b></p>
@@ -442,8 +457,8 @@
   <tr>
     <td><p><b>View Member Information</b></p></td>
     <td>
-	  <p>Display information for a member in a sandbox, including Integrity project and path details, member revision details, and more.</p>
-      <p>Integrity command: <em>si memberinfo</em></p>
+	  <p>Display information for a member in a sandbox, including Integrity Lifecycle Manager project and path details, member revision details, and more.</p>
+      <p>Integrity Lifecycle Manager command: <em>si memberinfo</em></p>
 	</td>
     <td>
 	  <p><b>TortoiseSI &gt; Member Information</b></p>
@@ -453,32 +468,32 @@
     <tr>
     <td><p><b>View Sandbox</b></p></td>
     <td>
-	  <p>Open the contents of a sandbox in  Integrity's Sandbox view. The Sandbox view displays project members and subprojects in a tree structure.</p>
-      <p>Integrity command: <em>si viewsandbox</em></p>
+	  <p>Open the contents of a sandbox in Integrity Lifecycle Manager's Sandbox view. The Sandbox view displays project members and subprojects in a tree structure.</p>
+      <p>Integrity Lifecycle Manager command: <em>si viewsandbox</em></p>
 	</td>
     <td>
 	  <p><b>TortoiseSI &gt; View Sandbox</b></p>
-      <p>Select a file or a folder in a project.</p>
+      <p>Select a folder in a project.</p>
 	</td>
   </tr>
    <tr>
     <td><p><b>View Related Change Packages</b></p></td>
     <td>
 	  <p>Review all change packages containing members that belong to a specific project branch.</p>
-      <p>Integrity command: <em>si viewcps</em></p>
+      <p>Integrity Lifecycle Manager command: <em>si viewcps</em></p>
 	</td>
     <td>
-    <p><b>TortoiseSI &gt;  Related Change Packages</b>	</p>
-    <p>Select a  file, folder, or subfolder in a project.</p></td>
+    <p><b>TortoiseSI &gt; Related Change Packages</b>	</p>
+    <p>Select a folder or subfolder in a project.</p></td>
   </tr>
   <tr>
   <td><p><b>View Project History</b></p></td>
     <td>
 	  <p>Review the history of a project since it was put under version control, including detailed information for a selected checkpoint.</p>
-      <p>Integrity command: <em>si viewprojecthistory</em></p>
+      <p>Integrity Lifecycle Manager command: <em>si viewprojecthistory</em></p>
 	</td>
     <td>
-	  <p><b>TortoiseSI &gt;  Project History</b></p>
+	  <p><b>TortoiseSI &gt; Project History</b></p>
       <p>Select a folder or subfolder in a project. Single selection only.</p>
 	</td>
   </tr>
@@ -489,12 +504,12 @@
       <p><b>Notes:</b>
       <ul>
       <li>You can only compare project checkpoints that are within a single line of development. You cannot compare project checkpoints across branches.
-      <li>To see changes between two specific checkpoints, use TortoiseSI to run the View Project History command first. Then, in Integrity’s Project History view, select two checkpoints to compare, and run Integrity's View Project Differences command.</li>
+      <li>To see changes between two specific checkpoints, use TortoiseSI to run the View Project History command first. Then, in Integrity Lifecycle Manager’s Project History view, select two checkpoints to compare, and run Integrity Lifecycle Manager's View Project Differences command.</li>
       </ul></p>
-      <p>Integrity command: <em>si mods</em></p>
+      <p>Integrity Lifecycle Manager command: <em>si mods</em></p>
 	</td>
     <td>
-	  <p><b>TortoiseSI &gt;  Project Differences</b></p>
+	  <p><b>TortoiseSI &gt; Project Differences</b></p>
       <p>Select a folder or subfolder in a project. Single selection only.</p>
 	</td>
   </tr>
@@ -502,34 +517,34 @@
     <td><p><b>View My Change Packages</b></p></td>
     <td>
 	  <p>Review a list of all change packages you have created that contain entries that have not been committed to the repository. </p>
-	  <p>In Integrity's My Change Packages view, you can manage your change packages as follows:</p>
+	  <p>In Integrity Lifecycle Manager's My Change Packages view, you can manage your change packages as follows:</p>
       <ul>
       <li>View a change package and its entries.</li>
       <li>Submit any deferred operations for a change package.</li>
       <li>Create, edit, and close a change package.</li>
       </ul>
-       <p>Integrity command: <em>si viewcps</em></p>
+       <p>Integrity Lifecycle Manager command: <em>si viewcps</em></p>
 	</td>
     <td>
-	  <p><b>TortoiseSI &gt;  My Change Packages</b></p>
+	  <p><b>TortoiseSI &gt; My Change Packages</b></p>
     <p>Select a file or a folder in a project. No selection or multiple selections are also supported.</p></td>
   </tr>
   <tr>
     <td><p><b>View My Reviews</b></p></td>
     <td>
-	  <p>Display  a list of all change packages that have been submitted and that are ready for you to review. </p>
-      <p>Integrity command: <em>si viewcps</em></p>
+	  <p>Display a list of all change packages that have been submitted and that are ready for you to review. </p>
+      <p>Integrity Lifecycle Manager command: <em>si viewcps</em></p>
 	</td>
     <td>
-    <p><b>TortoiseSI &gt;  My Reviews</b>	</p>
-    <p>Select a  file or a folder in a project. No selection or multiple selections are also supported.</p></td>
+    <p><b>TortoiseSI &gt; My Reviews</b>	</p>
+    <p>Select a file or a folder in a project. No selection or multiple selections are also supported.</p></td>
   </tr>
   <tr>
     <td><b>View My Locks</b></td>
-    <td><p>Review  all of the members that you have locked across all projects.</p>
-    <p>Integrity command: <em>si locks</em></p></td>
-    <td><p><b>TortoiseSI &gt;  My Locks</b></p>
-    <p>Select a  file or a folder in a project. No selection or multiple selections are also supported.</p></td>
+    <td><p>Review all of the members that you have locked across all projects.</p>
+    <p>Integrity Lifecycle Manager command: <em>si locks</em></p></td>
+    <td><p><b>TortoiseSI &gt; My Locks</b></p>
+    <p>Select a file or a folder in a project. No selection or multiple selections are also supported.</p></td>
   </tr>
   <tr>
     <td><p><b>View Working File Changes</b></p></td>
@@ -538,25 +553,25 @@
     <p>You can also use this view to submit changes to the repository. See the section <a href="#section5">Committing Changes to the Repository</a> for details.	</p></td>
     <td>
 	  <p><b>TortoiseSI &gt; Working File Changes</b></p>
-      <p>Select a  folder in a project.</p>
+      <p>Select a folder in a project.</p>
 	</td>
   </tr>
 </table>
 
 <h2 id="section6_2">TortoiseSI Icon Overlays</h2>
-<p>TortoiseSI status indicators appear as icon overlays on Integrity version- controlled files in Windows Explorer. These icon overlays show you, at a glance, what has been modified on the file system.</p>
-<p>The following table lists the TortoiseSI file icon overlays available for each Integrity member status. </p>
-<p>For more information on Integrity member status, see the <em>PTC Integrity User Guide</em>, <em>Integrity Help Center</em>, or <em>Integrity CLI man pages</em>.</p>
+<p>TortoiseSI status indicators appear as icon overlays on Integrity Lifecycle Manager version- controlled files in Windows Explorer. These icon overlays show you, at a glance, what has been modified on the file system.</p>
+<p>The following table lists the TortoiseSI file icon overlays available for each Integrity Lifecycle Manager member status. </p>
+<p>For more information on Integrity Lifecycle Manager member status, see the <em>PTC Integrity User Guide</em>, <em>Integrity Lifecycle Manager Help Center</em>, or <em>Integrity Lifecycle Manager CLI man pages</em>.</p>
 <table>
   <tr>
-    <th>Integrity Member Status</th>
+    <th>Integrity Lifecycle Manager Member Status</th>
     <th>TortoiseSI File Icon Overlay</th>
     <th>Limited File Icon Overlay Subset</th>
   </tr>
   <tr>
     <td>
 	  <p><b>Add Member</b></p>
-      <p>A blue plus sign indicates files that exist in a file system folder that are not yet members of a version-controlled Integrity project.</p>
+      <p>A blue plus sign indicates files that exist in a file system folder that are not yet members of a version-controlled Integrity Lifecycle Manager project.</p>
 	</td>
     <td><p class="center"><img src="images/Add_IconOverlay.png" alt="Add Icon Overlay" /></p></td>
     <td><p class="center"><img src="images/Modified_Moved_Renamed_IconOverlay.png" alt="Modified, Moved, Renamed Icon Overlay" /></p></td>
@@ -564,7 +579,7 @@
   <tr>
     <td>
 	  <p><b>Drop Member or Former Member</b></p>
-      <p>A red X icon indicates files that have been deleted and dropped from a version-controlled Integrity project.</p>
+      <p>A red X icon indicates files that have been deleted and dropped from a version-controlled Integrity Lifecycle Manager project.</p>
       <p><b>Note:</b> A local copy of the dropped file, called a Former Member, may remain in the sandbox.</p>
 	</td>
     <td><p class="center"><img src="images/Drop_IconOverlay.png" alt="Drop or Former Icon Overlay" /></p></td>
@@ -573,7 +588,7 @@
   <tr>
     <td>
 	  <p><b>Member</b></p>
-      <p>A green checkbox icon indicates files that correspond to members of an Integrity version-controlled sandbox.</p>
+      <p>A green checkbox icon indicates files that correspond to members of an Integrity Lifecycle Manager version-controlled sandbox.</p>
 	</td>
     <td><p class="center"><img src="images/Member_IconOverlay.png" alt="Member Icon Overlay" /></p></td>
     <td><p class="center">N/A</p></td>
@@ -581,7 +596,7 @@
   <tr>
     <td>
 	  <p><b>Locked Member</b></p>
-      <p>A yellow lock icon indicates files that have been locked in an Integrity version-controlled project.</p>
+      <p>A yellow lock icon indicates files that have been locked in an Integrity Lifecycle Manager version-controlled project.</p>
 	</td>
     <td><p class="center"><img src="images/Locked_IconOverlay.png" alt="Locked Icon Overlay" /></p></td>
     <td><p class="center"><img src="images/Modified_Moved_Renamed_IconOverlay.png" alt="Modified, Moved, Renamed Icon Overlay" /></p></td>
@@ -597,8 +612,8 @@
   <tr>
     <td>
 	  <p><b>Incoming Member Conflict</b></p>
-      <p>A yellow exclamation mark icon indicates files that are currently out of synchronization with the Integrity version-controlled project (including files have been modified locally and remotely, or files that have unresolved merge operations).</p>
-      <p>Further action is required in Integrity for file conflicts.</p>
+      <p>A yellow exclamation mark icon indicates files that are currently out of synchronization with the Integrity Lifecycle Manager version-controlled project (including files have been modified locally and remotely, or files that have unresolved merge operations).</p>
+      <p>Further action is required in Integrity Lifecycle Manager for file conflicts.</p>
 	</td>
     <td><p class="center"><img src="images/Incoming_IconOverlay.png" alt="Incoming Conflict Icon Overlay" /></p></td>
     <td><p class="center"><img src="images/Modified_Moved_Renamed_IconOverlay.png" alt="Modified, Moved, Renamed Icon Overlay" /></p></td>
@@ -609,15 +624,15 @@
   <li>If you are unable to see the TortoiseSI icon overlays on files and folders in Windows Explorer, restart Windows Explorer or reboot the machine.</li>
   <li>Refresh the Windows Explorer window any time to see updated file status icons.</li>
   
-  <li>In cases where other file system-based integrations limit the number of icon overlays available to TortoiseSI, a limited subset of icons appear instead, as defined in <b>Limited Icon Overlay Subset </b>column in the Integrity Member Status table.</li>
-  <li>Integrity folder icon status information will be implemented in a future release. For more information, see open issue <a href="https://github.com/PTC-ALM/TortoiseSI/issues/108">108</a> in the <a href="https://github.com/PTC-ALM/TortoiseSI/issues">GitHub TortoiseSI issue tracker</a>.</li>
+  <li>In cases where other file system-based integrations limit the number of icon overlays available to TortoiseSI, a limited subset of icons appear instead, as defined in <b>Limited Icon Overlay Subset </b>column in the Integrity Lifecycle Manager Member Status table.</li>
+  <li>Integrity Lifecycle Manager folder icon status information will be implemented in a future release. For more information, see open issue <a href="https://github.com/PTC-ALM/TortoiseSI/issues/108">108</a> in the <a href="https://github.com/PTC-ALM/TortoiseSI/issues">GitHub TortoiseSI issue tracker</a>.</li>
   <li><a href="#section6_4">Excluded files</a> do not display a TortoiseSI status icon overlay in Windows Explorer.</li>
 </ul>
 
 <h2 id="section6_3">Viewing TortoiseSI Folder Properties</h2>
-<p>To display  Integrity project or subproject properties for a project under version control, right-click on a folder and select <b>Properties &gt; TortoiseSI</b>.</p>
-<p><b>Note:</b> The <b>TortoiseSI</b> tab is not visible for folders that are not in a version-controlled Integrity project.</p>
-<p>The following Integrity Configuration Management properties are displayed.</p>
+<p>To display Integrity Lifecycle Manager project or subproject properties for a project under version control, right-click on a folder and select <b>Properties &gt; TortoiseSI</b>.</p>
+<p><b>Note:</b> The <b>TortoiseSI</b> tab is not visible for folders that are not in a version-controlled Integrity Lifecycle Manager project.</p>
+<p>The following Integrity Lifecycle Manager Configuration Management properties are displayed.</p>
 <table>
   <tr>
     <th>Property</th>
@@ -640,7 +655,7 @@
 	  <p>Server</p>
 	</td>
     <td>
-	  <p>The name of the host server where the Integrity server is located.</p>
+	  <p>The name of the host server where the Integrity Lifecycle Manager server is located.</p>
     </td>
   </tr>
   <tr>
@@ -650,12 +665,12 @@
     </td>
   </tr>
 </table>
-<p>For more information on working with Integrity projects and subprojects, see the <em>PTC Integrity User Guide</em>, <em>Integrity Help Center</em>, or <em>Integrity CLI man pages</em>.</p>
+<p>For more information on working with Integrity Lifecycle Manager projects and subprojects, see the <em>PTC Integrity User Guide</em>, <em>Integrity Lifecycle Manager Help Center</em>, or <em>Integrity Lifecycle Manager CLI man pages</em>.</p>
 
 <h2 id="section6_4">Viewing TortoiseSI File Properties</h2>
-<p>To display  Integrity member properties for a file under version control, right-click on a file and select <b>Properties &gt; TortoiseSI</b>.</p>
-<p><b>Note:</b> The <b>TortoiseSI</b> tab is not visible for files that are not in a version-controlled Integrity project.</p>
-<p>The following Integrity Configuration Management properties are displayed.</p>
+<p>To display Integrity Lifecycle Manager member properties for a file under version control, right-click on a file and select <b>Properties &gt; TortoiseSI</b>.</p>
+<p><b>Note:</b> The <b>TortoiseSI</b> tab is not visible for files that are not in a version-controlled Integrity Lifecycle Manager project.</p>
+<p>The following Integrity Lifecycle Manager Configuration Management properties are displayed.</p>
 <table>
   <tr>
     <th>Property</th>
@@ -689,30 +704,31 @@
   <tr>
     <td><p>Status</p></td>
     <td>
-	  <p>The Integrity member status, such as a deferred operation. <br>
+	  <p>The Integrity Lifecycle Manager member status, such as a deferred operation. <br>
 	    Multiple statuses are pipe-delimited.<br>
-	    Status information for  <a href="#move">moved</a> and <a href="#rename">renamed</a> members is available only for deferred operations. <br />
-      This information may correspond to sandbox icon overlays visible in the Integrity client.</p>
+	    Status information for <a href="#move">moved</a> and <a href="#rename">renamed</a> members is available only for deferred operations. <br />
+      This information may correspond to sandbox icon overlays visible in the Integrity Lifecycle Manager client.</p>
     </td>
   </tr>
   <tr>
     <td><p>Sandbox Name</p></td>
-    <td><p>The path to the Integrity sandbox that contains the file.</p></td>
+    <td><p>The path to the Integrity Lifecycle Manager sandbox that contains the file.</p></td>
   </tr>
 </table>
-<p>For more information on working with Integrity members, see the <em>PTC Integrity User Guide</em>, <em>Integrity Help Center</em>, or <em>Integrity CLI man pages</em>.</p>
+<p>For more information on working with Integrity Lifecycle Manager members, see the <em>PTC Integrity User Guide</em>, <em>Integrity Lifecycle Manager Help Center</em>, or <em>Integrity Lifecycle Manager CLI man pages</em>.</p>
 
 <h2 id="section6_5">Excluding Files</h2>
-<p>You can use TortoiseSI to exclude uncontrolled files in a sandbox from appearing in selections when adding members to a version-controlled Integrity project. </p>
-<p>For example, you may want to  avoid adding specific DLL files or all EXE files when performing a member add operation. You do not want to have to remember to  exclude  files manually. Excluding a specific filename or a file pattern adds that exclusion as an  Integrity  Non-Member Files exclusion filter preference in the client.</p>
+<p>You can use TortoiseSI to exclude uncontrolled files in a sandbox from appearing in selections when adding members to a version-controlled Integrity Lifecycle Manager project. </p>
+<p>For example, you may want to avoid adding specific DLL files or all EXE files when performing a member add operation. You do not want to have to remember to exclude files manually. Excluding a specific filename or a file pattern adds that exclusion as an Integrity Lifecycle Manager Non-Member Files exclusion filter preference in the client.</p>
 <ul>
   <li>To exclude a specific file by filename, right-click on a single file and select <b>TortoiseSI &gt; Add to exclude filter</b> <b>&gt; [the file you want to exclude]</b>.</li>
   <li>To exclude files by file pattern, right-click on a single file and select <b>TortoiseSI &gt; Add to exclude filter</b> <b>&gt; [file pattern]</b>.</li>
 </ul>
 <p>To remove a file pattern exclusion filter, right-click on a non-member file that currently matches a file pattern entry in the exclusion filter, and select <b>TortoiseSI &gt; Remove from Exclude Filter &gt; [file pattern]</b>.</p>
+
 <h1 id="section7">Contacting Us</h1>
 <p>This release product is a work in progress. Both the TortoiseSI product and this documentation are subject to change.</p>
-<p>Details about how to contribute to the TortoiseSI project can be found on the <a href="http://www.TortoiseSI.org">TortoiseSI GitHub project page</a> and the  <a href="https://github.com/PTC-ALM/TortoiseSI/wiki">GitHub TortoiseSI wiki</a>.</p>
-<p>Contact PTC - Integrity Support through the <a href="http://www.ptc.com/support/integrity.htm">Integrity Support Center</a> to report TortoiseSI defects or to make enhancement requests. See the  <a href="https://github.com/PTC-ALM/TortoiseSI/issues">GitHub TortoiseSI issue tracker</a> for more information on issue status, including known and fixed issues.</p>
+<p>Details about how to contribute to the TortoiseSI project can be found on the <a href="http://www.TortoiseSI.org">TortoiseSI GitHub project page</a> and the <a href="https://github.com/PTC-ALM/TortoiseSI/wiki">GitHub TortoiseSI wiki</a>.</p>
+<p>Contact PTC Technical Support through the <a href="http://www.ptc.com/support/integrity.htm">PTC Integrity eSupport portal</a> for problems/questions about the integration or raise a new issue/enhancement request on the <a href="https://github.com/PTC-ALM/TortoiseSI/issues">GitHub TortoiseSI issue tracker</a>. See <a href="https://github.com/PTC-ALM/TortoiseSI/issues">GitHub TortoiseSI issue tracker</a> for more information on issue status, including known and fixed issues.</p>
 </body>
 </html>
